@@ -24,8 +24,11 @@
  		<!-- Font Awesome Icon -->
  		<link rel="stylesheet" href="{{asset('css/font-awesome.min.css')}}">
 
- 		<!-- Custom stlylesheet -->
+        <!-- Custom stlylesheet -->
  		<link type="text/css" rel="stylesheet" href="{{asset('css/style.css')}}"/>
+
+        {{-- Favicon  --}}
+        <link rel="icon" href="{{asset('img/icon.ico')}}" />
 
  		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
  		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -33,9 +36,11 @@
  		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
  		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
  		<![endif]-->
+
         @yield('extra-css')
     </head>
 	<body>
+
 		@include('partials.header')
 
 		<!-- NAVIGATION -->
@@ -62,27 +67,7 @@
 		</nav>
 		<!-- /NAVIGATION -->
 
-        <!-- BREADCRUMB -->
-        <div id="breadcrumb" class="section">
-            <!-- container -->
-            <div class="container">
-                <!-- row -->
-                <div class="row">
-                    <div class="col-md-12">
-                        <ul class="breadcrumb-tree">
-                            <li><a href="/">Home</a></li>
-                            <li><a href="#">All Categories</a></li>
-                            <li><a href="#">Accessories</a></li>
-                            <li><a href="#">Headphones</a></li>
-                            <li class="active">@yield('nomProduit','')</li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- /row -->
-            </div>
-            <!-- /container -->
-        </div>
-        <!-- /BREADCRUMB -->
+        @yield('breadcrumb')
 
         @yield('content')
 
@@ -95,7 +80,7 @@
 		<script src="{{asset('js/bootstrap.min.js')}}"></script>
 		<script src="{{asset('js/slick.min.js')}}"></script>
 		<script src="{{asset('js/nouislider.min.js')}}"></script>
-		<script src="{{asset('js/jquery.zoom.min.js')}}"></script>
+
 		<script src="{{asset('js/main.js')}}"></script>
 
         @yield('extra-js')

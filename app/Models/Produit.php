@@ -12,4 +12,12 @@ class Produit extends Model
     public function scopeMightAlsoLike($query){
         return $query->inRandomOrder()->take(4);
     }
+
+    public function categories(){
+        return $this->belongsToMany('App\Models\Categorie');
+    }
+
+    public function marque(){
+        return $this->belongsTo('App\Models\Marque');
+    }
 }

@@ -10,7 +10,24 @@
             </ul>
             <ul class="header-links pull-right">
                 <li><a href="#"><i class="fa fa-dollar"></i> DHS</a></li>
-                <li><a href="#"><i class="fa fa-user-o"></i> Mon Compte</a></li>
+                @guest
+                    <li><a href="{{route('login')}}"><i class="fa fa-user-o"></i> Mon Compte</a></li>
+                @else
+                    <li>
+                        <div class="dropdown">
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                               onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
+                    </li>
+
+                @endguest
             </ul>
         </div>
     </div>
@@ -66,7 +83,7 @@
                                         <div class="product-widget">
                                             <a href="{{route('voir_produit',$item->model->id)}}">
                                                 <div class="product-img">
-                                                    <img src="{{asset('img/'.$item->model->photo_principale)}}" alt="">
+                                                    <img src="{{asset('storage/'.$item->model->photo_principale)}}" alt="">
                                                 </div>
                                             </a>
                                             <div class="product-body">
@@ -74,14 +91,13 @@
                                                 <h4 class="product-price">{{number_format($item->model->prix_ht,2)}}Dhs</h4>
                                                 <span class="qty">
                                                    <form action="{{route('envoyer_au_panier',$item->rowId)}}" method="POST">
-                                                       {{csrf_field()}}
-
-                                                       <button class="nocss" type="submit"><i class="fa fa-arrow-right"></i></button>Envoyer au Panier
+                                                       @csrf
+                                                       <button type="submit"><i class="fa fa-arrow-right"></i></button>
                                                     </form>
                                                 </span>
                                             </div>
                                             <form action="{{route('supprimer_de_la_wishlist',$item->rowId)}}" method="POST">
-                                                {{csrf_field()}}
+                                                @csrf
                                                 {{method_field('DELETE')}}
 
                                                 <button class="delete" type="submit"><i class="fa fa-close"></i></button>
@@ -120,7 +136,7 @@
                                         <div class="product-widget">
                                             <a href="{{route('voir_produit',$item->model->id)}}">
                                                 <div class="product-img">
-                                                    <img src="{{asset('img/'.$item->model->photo_principale)}}" alt="">
+                                                    <img src="{{asset('storage/'.$item->model->photo_principale)}}" alt="">
                                                 </div>
                                             </a>
                                             <div class="product-body">

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categorie;
+use App\Models\Marque;
 use App\Models\Produit;
 use Illuminate\Http\Request;
 
@@ -14,9 +16,32 @@ class ShopController extends Controller
      */
     public function index()
     {
-        $produits = Produit::inRandomOrder()->take(9)->get();
+        $pagination = 6;
+        $categories = Categorie::all();
+        $marques = Marque::all();
 
-        return view('store')->with('produits',$produits);
+        if (request()->categorie){
+            $produits = Produit::with('categories')->whereHas('categories',function ($query){
+               $query->where('slug',request()->categorie);
+
+            });
+        }
+        elseif(request()->marque){
+            $produits = Produit::with('marque')->whereHas('marque',function ($query){
+                $query->where('slug',request()->marque);
+
+            });
+        }
+        else{
+            $produits = Produit::take(6);
+        }
+        $produits = $produits->paginate($pagination);
+
+        return view('store')->with([
+            'produits' => $produits,
+            'categories' => $categories,
+            'marques' => $marques,
+        ]);
     }
 
 

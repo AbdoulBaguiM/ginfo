@@ -1,5 +1,9 @@
 @extends('layout')
 
+@section('breadcrumb')
+    @include('partials.breadcrumb')
+@endsection
+
 @section('content')
 		<!-- SECTION -->
 		<div class="section">
@@ -14,66 +18,25 @@
 							<h3 class="aside-title">Categories</h3>
 							<div class="checkbox-filter">
 
-								<div class="input-checkbox">
-									<input type="checkbox" id="category-1">
-									<label for="category-1">
-										<span></span>
-										Laptops
-										<small>(120)</small>
-									</label>
-								</div>
+                                @foreach( $categories as $categorie )
+                                    <div class="input-checkbox">
+                                        <input type="checkbox" id="category-{{$categorie->id}}" {{request()->categorie == $categorie->slug ? 'checked' : ''}} onclick="return false;">
+                                        <label for="category-{{$categorie->id}}">
+                                            <span></span>
+                                            <a href="{{route('voir_produits',['categorie' => $categorie->slug])}}">
+                                                {{$categorie->nom}}</a>
+                                            <small>({{$categorie->produits()->count()}})</small>
+                                        </label>
+                                    </div>
+                                @endforeach
 
-								<div class="input-checkbox">
-									<input type="checkbox" id="category-2">
-									<label for="category-2">
-										<span></span>
-										Smartphones
-										<small>(740)</small>
-									</label>
-								</div>
-
-								<div class="input-checkbox">
-									<input type="checkbox" id="category-3">
-									<label for="category-3">
-										<span></span>
-										Cameras
-										<small>(1450)</small>
-									</label>
-								</div>
-
-								<div class="input-checkbox">
-									<input type="checkbox" id="category-4">
-									<label for="category-4">
-										<span></span>
-										Accessories
-										<small>(578)</small>
-									</label>
-								</div>
-
-								<div class="input-checkbox">
-									<input type="checkbox" id="category-5">
-									<label for="category-5">
-										<span></span>
-										Laptops
-										<small>(120)</small>
-									</label>
-								</div>
-
-								<div class="input-checkbox">
-									<input type="checkbox" id="category-6">
-									<label for="category-6">
-										<span></span>
-										Smartphones
-										<small>(740)</small>
-									</label>
-								</div>
 							</div>
 						</div>
 						<!-- /aside Widget -->
 
 						<!-- aside Widget -->
 						<div class="aside">
-							<h3 class="aside-title">Price</h3>
+							<h3 class="aside-title">Prix</h3>
 							<div class="price-filter">
 								<div id="price-slider"></div>
 								<div class="input-number price-min">
@@ -93,63 +56,28 @@
 
 						<!-- aside Widget -->
 						<div class="aside">
-							<h3 class="aside-title">Brand</h3>
+							<h3 class="aside-title">Marque</h3>
 							<div class="checkbox-filter">
-								<div class="input-checkbox">
-									<input type="checkbox" id="brand-1">
-									<label for="brand-1">
-										<span></span>
-										SAMSUNG
-										<small>(578)</small>
-									</label>
-								</div>
-								<div class="input-checkbox">
-									<input type="checkbox" id="brand-2">
-									<label for="brand-2">
-										<span></span>
-										LG
-										<small>(125)</small>
-									</label>
-								</div>
-								<div class="input-checkbox">
-									<input type="checkbox" id="brand-3">
-									<label for="brand-3">
-										<span></span>
-										SONY
-										<small>(755)</small>
-									</label>
-								</div>
-								<div class="input-checkbox">
-									<input type="checkbox" id="brand-4">
-									<label for="brand-4">
-										<span></span>
-										SAMSUNG
-										<small>(578)</small>
-									</label>
-								</div>
-								<div class="input-checkbox">
-									<input type="checkbox" id="brand-5">
-									<label for="brand-5">
-										<span></span>
-										LG
-										<small>(125)</small>
-									</label>
-								</div>
-								<div class="input-checkbox">
-									<input type="checkbox" id="brand-6">
-									<label for="brand-6">
-										<span></span>
-										SONY
-										<small>(755)</small>
-									</label>
-								</div>
+
+                                @foreach( $marques as $marque )
+                                    <div class="input-checkbox">
+                                        <input type="checkbox" id="category-{{$marque->id}}" {{request()->marque == $marque->slug ? 'checked' : ''}} onclick="return false;">
+                                        <label for="category-{{$marque->id}}">
+                                            <span></span>
+                                            <a href="{{route('voir_produits',['marque' => $marque->slug])}}">
+                                                {{$marque->nom}}</a>
+                                            <small>({{$marque->produits()->count()}})</small>
+                                        </label>
+                                    </div>
+                                @endforeach
+
 							</div>
 						</div>
 						<!-- /aside Widget -->
 
 						<!-- aside Widget -->
 						<div class="aside">
-							<h3 class="aside-title">Top selling</h3>
+							<h3 class="aside-title">Top ventes</h3>
 							<div class="product-widget">
 								<div class="product-img">
 									<img src="./img/product01.png" alt="">
@@ -234,20 +162,23 @@
 						<!-- store products -->
 						<div class="row">
 							<!-- products-->
-                            @foreach($produits as $produit)
+                            @forelse($produits as $produit)
                                 <div class="col-md-4 col-xs-6">
                                     <a href="{{route('voir_produit',$produit->id)}}">
                                         <div class="product">
                                             <div class="product-img">
-                                                <img src="./img/{{$produit->photo_principale}}" alt="">
-
+                                                <img src="{{asset('storage/'.$produit->photo_principale)}}" alt="">
                                                 <div class="product-label">
                                                     <span class="sale">-30%</span>
-                                                    <span class="new">NEW</span>
+                                                    @if($produit->featured)
+                                                        <span class='new'>NEW</span>
+                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="product-body">
-                                                <p class="product-category">Category</p>
+                                                @if($produit->categories()->first())
+                                                    <p class="product-category">{{$produit->categories()->first()->nom}}</p>
+                                                @endif
                                                 <h3 class="product-name"><a href="{{route('voir_produit',$produit->id)}}">{{$produit->nom}}</a></h3>
                                                 <h4 class="product-price">{{number_format($produit->prix_ht,2)}}Dhs<del class="product-old-price">990.00Dhs</del></h4>
                                                 <div class="product-rating">
@@ -260,7 +191,7 @@
                                                 <div class="product-btns">
                                                     <button class="add-to-wishlist">
                                                         <form action="{{ route('ajouter_a_la_wishlist', $produit) }}" method="POST">
-                                                            {{ csrf_field() }}
+                                                            @csrf
                                                             <input type="hidden" name="id" value="{{$produit->id}}">
                                                             <input type="hidden" name="nom" value="{{$produit->nom}}">
                                                             <input type="hidden" name="prix_ht" value="{{$produit->prix_ht}}">
@@ -273,32 +204,29 @@
                                             </div>
                                             <div class="add-to-cart">
                                                 <form action="{{ route('ajouter_au_panier', $produit) }}" method="POST">
-                                                    {{ csrf_field() }}
+                                                    @csrf
                                                     <input type="hidden" name="id" value="{{$produit->id}}">
                                                     <input type="hidden" name="nom" value="{{$produit->nom}}">
                                                     <input type="hidden" name="prix_ht" value="{{$produit->prix_ht}}">
-                                                    <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>add to cart</button>
+                                                    <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>J'achète</button>
                                                 </form>
                                             </div>
                                         </div>
                                     </a>
                                 </div>
-                            @endforeach
+                            @empty
+                                <div >Aucun produit trouvé</div>
+                            @endforelse
 							<!-- /products-->
 						</div>
 						<!-- /store products -->
-
 						<!-- store bottom filter -->
-						<div class="store-filter clearfix">
+
+						<div class="store-filter clearfix" style="float: right">
 							<span class="store-qty">Showing 20-100 products</span>
-							<ul class="store-pagination">
-								<li class="active">1</li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-							</ul>
+                            {{$produits->appends(request()->input())->links("pagination::bootstrap-4")}}
 						</div>
+
 						<!-- /store bottom filter -->
 					</div>
 					<!-- /STORE -->

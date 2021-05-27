@@ -93,7 +93,7 @@
             font-size: .75em;
             padding: 1em;
             color: #fff;
-            background: #D10024;
+            background: #f96302;
             font-weight: bold;
             border-radius: 50px;
             float: right;
@@ -116,7 +116,7 @@
             transition: all 0.15s linear;
         }
         .heading a.continue:hover, .heading a.continue:focus, .heading a.continue:active {
-            background: #f69679;
+            background: #f28f52;
         }
         .heading a.continue:hover:after, .heading a.continue:focus:after, .heading a.continue:active:after {
             right: -10px;
@@ -154,60 +154,74 @@
             display: table;
             width: 100%;
         }
-        .cart .items .cartSection {
+
+        .cart .items .tableRow {
+            display: table-row;
+            width: 100%;
+        }
+
+        .cart .items .tableRow .cartSection {
             display: table-cell;
             vertical-align: middle;
         }
-        .cart .items .cartSection .itemNumber {
+        .cart .items .tableRow .cell2 {
+            float: right;
+            display: table-cell;
+        }
+        .cart .items .tableRow .cell3 {
+            float: right;
+            display: table-cell;
+        }
+        .cart .items .tableRow .cartSection .itemNumber {
             font-size: .75em;
             color: #777;
             margin-bottom: .5em;
         }
-        .cart .items .cartSection h3 {
+        .cart .items .tableRow .cartSection h3 {
             font-size: 1em;
             font-family: "Montserrat", sans-serif;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: .025em;
         }
-        .cart .items .cartSection p {
-            display: inline-block;
+        .cart .items .tableRow .cartSection p {
+            display: block;
             font-size: .85em;
             color: #777777;
             font-family: "Montserrat", sans-serif;
         }
-        .cart .items .cartSection p .quantity {
+        .cart .items .tableRow .cartSection p .quantity {
             font-weight: bold;
             color: #333;
         }
-        .cart .items .cartSection p.stockStatus {
+        .cart .items .tableRow .cartSection p.stockStatus {
             color: #82CA9C;
             font-weight: bold;
             padding: .5em 0 0 1em;
             text-transform: uppercase;
         }
-        .cart .items .cartSection p.stockStatus.out {
+        .cart .items .tableRow .cartSection p.stockStatus.out {
             color: #F69679;
         }
-        .cart .items .cartSection .itemImg {
+        .cart .items .tableRow .cartSection .itemImg {
             width: 4em;
             float: left;
         }
-        .cart .items .cartSection.qtyWrap, .cart .items .cartSection.prodTotal {
+        .cart .items .tableRow .cartSection.qtyWrap, .cart .items .cartSection.prodTotal {
             text-align: center;
         }
-        .cart .items .cartSection.qtyWrap p, .cart .items .cartSection.prodTotal p {
+        .cart .items .tableRow .cartSection.qtyWrap p, .cart .items .cartSection.prodTotal p {
             font-weight: bold;
             font-size: 1.25em;
         }
-        .cart .items .cartSection input.qty {
-            width: 2em;
+        .cart .items .tableRow .cartSection input.qty {
+            width: 5em;
             text-align: center;
             font-size: 1em;
             padding: .25em;
             margin: 1em .5em 0 0;
         }
-        .cart .items .cartSection .itemImg {
+        .cart .items .tableRow .cartSection .itemImg {
             width: 8em;
             display: inline;
             padding-right: 1em;
@@ -232,24 +246,18 @@
         }
 
        button.remove {
-            text-decoration: none;
-            font-family: "Montserrat", sans-serif;
-            color: #ffffff;
-            font-weight: bold;
-            background: #e0e0e0;
-            padding: .5em;
-            font-size: .75em;
-            display: inline-block;
-            border-radius: 100%;
-            line-height: .85;
-            -webkit-transition: all 0.25s linear;
-            -moz-transition: all 0.25s linear;
-            -ms-transition: all 0.25s linear;
-            -o-transition: all 0.25s linear;
-            transition: all 0.25s linear;
+           width: 30px;
+           display: inline-block;
+           border-radius: 20%;
+           -webkit-transition: all 0.2s linear;
+           -moz-transition: all 0.2s linear;
+           -ms-transition: all 0.2s linear;
+           -o-transition: all 0.2s linear;
+           transition: all 0.2s linear;
         }
         button.remove:hover {
-            background: #f30;
+            color: red;
+            /*background: #ff3232;*/
         }
 
         .promoCode {
@@ -275,18 +283,7 @@
         .promoCode input:active, .promoCode input:focus {
             outline: 0;
         }
-        .promoCode a.btn {
-            float: left;
-            width: 15%;
-            padding: .75em 0;
-            border-radius: 0 1em 1em 0;
-            text-align: center;
-            border: 1px solid #D10024;
-        }
-        .promoCode a.btn:hover {
-            border: 1px solid #f69679;
-            background: #f69679;
-        }
+
 
         .btn:link, .btn:visited {
             text-decoration: none;
@@ -295,7 +292,7 @@
             font-size: 1em;
             padding: 1em 3em;
             color: #fff;
-            background: #D10024;
+            background: #f96302;
             font-weight: bold;
             border-radius: 50px;
             float: right;
@@ -318,7 +315,8 @@
             transition: all 0.15s linear;
         }
         .btn:hover, .btn:focus, .btn:active {
-            background: #f69679;
+            background: #FA731C;
+            color: #fff;
         }
         .btn:hover:after, .btn:focus:after, .btn:active:after {
             right: -10px;

@@ -3,6 +3,7 @@
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,6 +27,18 @@ Route::post('/panier/saveToWishlist','App\Http\Controllers\CartController@saveTo
 Route::delete('/panier/saveToWishlist/{produit}','App\Http\Controllers\WishlistController@destroy')->name('supprimer_de_la_wishlist');
 Route::post('/panier/saveToWishlist/switchToCart/{produit}','App\Http\Controllers\WishlistController@switchToCart')->name('envoyer_au_panier');
 
-Route::get('/checkout','App\Http\Controllers\CheckoutController@index')->name('checkout_commande');
+Route::post('/coupon', 'App\Http\Controllers\CouponsController@store')->name('ajouter_coupon');
+Route::delete('/coupon', 'App\Http\Controllers\CouponsController@destroy')->name('supprimer_coupon');
 
+Route::get('/checkout','App\Http\Controllers\CheckoutController@index')->name('checkout_commande')->middleware('auth');
+Route::post('/checkout', 'App\Http\Controllers\CheckoutController@store')->name('passer_commande');
 
+Route::get('/merci','App\Http\Controllers\ConfirmationController@index')->name('confirmation');
+
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

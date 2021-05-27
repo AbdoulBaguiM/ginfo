@@ -17,13 +17,16 @@
                     <a href="{{route('voir_produit',$produit->id)}}">
                         <div class="product">
                             <div class="product-img">
-                                <img src="{{asset('img/'.$produit->photo_principale)}}" alt="">
+                                <img src="{{asset('storage/'.$produit->photo_principale)}}" alt="">
                                 <div class="product-label">
                                     <span class="sale">-30%</span>
+                                    @if($produit->featured)
+                                        <span class="new">NEW</span>
+                                    @endif
                                 </div>
                             </div>
                             <div class="product-body">
-                                <p class="product-category">Category</p>
+                                <p class="product-category">{{$produit->categories()->first()->nom}}</p>
                                 <h3 class="product-name"><a href="#">{{$produit->nom}}</a></h3>
                                 <h4 class="product-price">{{number_format($produit->prix_ht,2)}} <del class="product-old-price">$990.00</del></h4>
                                 <div class="product-rating">
@@ -31,7 +34,7 @@
                                 <div class="product-btns">
                                     <button class="add-to-wishlist">
                                         <form action="{{ route('ajouter_a_la_wishlist', $produit) }}" method="POST">
-                                            {{ csrf_field() }}
+                                            @csrf
                                             <input type="hidden" name="id" value="{{$produit->id}}">
                                             <input type="hidden" name="nom" value="{{$produit->nom}}">
                                             <input type="hidden" name="prix_ht" value="{{$produit->prix_ht}}">
@@ -44,11 +47,11 @@
                             </div>
                             <div class="add-to-cart">
                                 <form action="{{ route('ajouter_au_panier', $produit) }}" method="POST">
-                                    {{ csrf_field() }}
+                                    @csrf
                                     <input type="hidden" name="id" value="{{$produit->id}}">
                                     <input type="hidden" name="nom" value="{{$produit->nom}}">
                                     <input type="hidden" name="prix_ht" value="{{$produit->prix_ht}}">
-                                    <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>add to cart</button>
+                                    <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>J'achète</button>
                                 </form>
                             </div>
                         </div>
