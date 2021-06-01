@@ -11,13 +11,13 @@
             <ul class="header-links pull-right">
                 <li><a href="#"><i class="fa fa-dollar"></i> DHS</a></li>
                 @guest
-                    <li><a href="{{route('login')}}"><i class="fa fa-user-o"></i> Mon Compte</a></li>
+                    <li><a href="{{route('login')}}"><i class="fa fa-lock"></i>Mon Compte</a></li>
                 @else
                     <li>
                         <div class="dropdown">
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                                     document.getElementById('logout-form').submit();"><i class="fa fa-user-o"></i>
                                 {{ __('Logout') }}
                             </a>
 
@@ -42,7 +42,7 @@
                 <!-- LOGO -->
                 <div class="col-md-3">
                     <div class="header-logo">
-                        <a href="#" class="logo">
+                        <a href="{{route('acceuil')}}" class="logo">
                             <img src="{{asset('img/logo.png')}}" alt="">
                         </a>
                     </div>
@@ -52,13 +52,8 @@
                 <!-- SEARCH BAR -->
                 <div class="col-md-6">
                     <div class="header-search">
-                        <form>
-                            <select class="input-select">
-                                <option value="0">All Categories</option>
-                                <option value="1">Category 01</option>
-                                <option value="1">Category 02</option>
-                            </select>
-                            <input class="input" placeholder="Search here">
+                        <form action="{{route('rechercher')}}" method="GET">
+                            <input class="input-select" name="query" id="query" placeholder="Chercher un produit, une marque" value="{{request()->input('query')}}">
                             <button class="search-btn">Rechercher</button>
                         </form>
                     </div>

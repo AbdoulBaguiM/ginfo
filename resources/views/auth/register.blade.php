@@ -1,77 +1,123 @@
 @extends('layout')
 
+@section('title', 'Créer un compte')
+
+@section('extra-css')
+    <style>
+        .auth-pages {
+            margin: 100px auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 100px;
+            min-height: 60vh;
+        }
+
+        .auth-pages input {
+            border: 1px solid ;
+            padding: 16px 10px;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .auth-pages input[type=checkbox] {
+            width: auto;
+        }
+
+        .auth-pages .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .auth-pages .auth-button {
+            background: #F96302;
+            color: white;
+            border-radius: 5px;
+            border: 1px solid #212121;
+            padding: 12px 50px;
+        }
+
+        .auth-pages .auth-button-hollow {
+            background: white;
+            color: #212121;
+            border-radius: 5px;
+            border: 1px solid #212121;
+            padding: 12px 50px;
+        }
+
+        .auth-pages .auth-button-hollow:hover {
+            background: #F96302;
+            color: #e9e9e9;
+        }
+
+        .auth-pages .auth-right {
+            border-left: 1px solid #CDCDCD;
+            padding-left: 100px;
+        }
+
+        .auth-pages .already-have-container {
+            text-align: right;
+        }
+    </style>
+@endsection
+
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+    <div class="container">
+        <div class="auth-pages">
+            <div>
+                @if (session()->has('success_message'))
+                    <div class="alert alert-success">
+                        {{ session()->get('success_message') }}
+                    </div>
+                @endif @if(count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <h3 align="center">Créer votre compte</h3>
+                <div class="spacer"></div>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
-                        @csrf
+                <form method="POST" action="{{ route('register') }}">
+                    {{ csrf_field() }}
 
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
+                    <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Nom" required>
 
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                    <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Email" required focused>
 
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                    <input id="telephone" type="tel" class="form-control" name="telephone" value="{{ old('telephone') }}" placeholder="Telephone" required>
+
+                    <input id="password" type="password" class="form-control" name="password" placeholder="Mot de passe" required>
+
+                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="Confirmer le mot de passe" required>
+
+                    <div class="login-container">
+                        <button type="submit" class="auth-button">Créer votre compte</button>
+                        <div class="already-have-container">
+                            <p><strong>Vous avez déjà un compte?</strong></p>
+                            <a href="{{ route('login') }}">Connectez-vous</a>
                         </div>
+                    </div>
 
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                </form>
             </div>
-        </div>
+
+            <div class="auth-right">
+                <h3 align="center">Nouvel Utilisateur</h3>
+                <div class="spacer"></div>
+                <p><strong>C'est gratuit</strong></p>
+                <p>Créez votre compte client en quelques clics ! Vous pourrez ainsi commander différents produits proposés par notre catalogue</p>
+
+                &nbsp;
+                <div class="spacer"></div>
+                <p><strong>Programme de fidelité</strong></p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt debitis, amet magnam accusamus nisi distinctio eveniet ullam. Facere, cumque architecto.</p>
+            </div>
+        </div> <!-- end auth-pages -->
     </div>
-</div>
 @endsection

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CommandeEffectue;
 use App\Models\Commande;
 use App\Models\CommandeProduit;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class CheckoutController extends Controller
 {
@@ -73,6 +75,8 @@ class CheckoutController extends Controller
         }
 
         //SUCCES
+
+        Mail::send(new CommandeEffectue($commande));
 
         Cart::instance('default')->destroy();
         session()->forget('coupon');

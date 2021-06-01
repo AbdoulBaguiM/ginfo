@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
+    public $pagination = 10;
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +17,6 @@ class ShopController extends Controller
      */
     public function index()
     {
-        $pagination = 6;
         $categories = Categorie::all();
         $marques = Marque::all();
 
@@ -35,7 +35,7 @@ class ShopController extends Controller
         else{
             $produits = Produit::take(6);
         }
-        $produits = $produits->paginate($pagination);
+        $produits = $produits->paginate($this->pagination);
 
         return view('store')->with([
             'produits' => $produits,
@@ -61,5 +61,22 @@ class ShopController extends Controller
             'produit' => $produit,
             'recommendations' => $recommendations,
         ]);
+    }
+
+    public function search(Request $request)
+    {
+        $request->validate([
+            'query' => 'required|min:3',
+        ]);
+
+        $query = request()->input('query');
+
+       /*$produits = Produit::where('nom', 'like', "%$query%")
+                            ->orWhere('details', 'like', "%$query%")
+                            ->paginate($this->pagination);*/
+
+        $produits = Produit::search($query)->paginate($this->pagination);
+
+        return view('search.search')->with('produits',$produits);
     }
 }

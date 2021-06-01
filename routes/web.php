@@ -35,6 +35,8 @@ Route::post('/checkout', 'App\Http\Controllers\CheckoutController@store')->name(
 
 Route::get('/merci','App\Http\Controllers\ConfirmationController@index')->name('confirmation');
 
+Route::get('/search','App\Http\Controllers\ShopController@search')->name('rechercher');
+
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
@@ -42,3 +44,4 @@ Route::group(['prefix' => 'admin'], function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+

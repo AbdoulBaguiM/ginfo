@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c74f6bfe788938fbe45738d6db8ba034",
+    "content-hash": "a821d3f360f3f2179670474484e36a28",
     "packages": [
         {
             "name": "arrilot/laravel-widgets",
@@ -2164,6 +2164,64 @@
             "time": "2020-03-04T21:35:18+00:00"
         },
         {
+            "name": "laravel-lang/lang",
+            "version": "10.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Laravel-Lang/lang.git",
+                "reference": "ccd1483a115f400cbdd0e23da78760868e701bd9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/ccd1483a115f400cbdd0e23da78760868e701bd9",
+                "reference": "ccd1483a115f400cbdd0e23da78760868e701bd9",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*"
+            },
+            "require-dev": {
+                "andrey-helldar/pretty-array": "^2.3",
+                "andrey-helldar/support": "^3.16.1",
+                "guzzlehttp/guzzle": "^7.3",
+                "laravel/fortify": "^1.7",
+                "laravel/jetstream": "^2.3",
+                "php": "^8.0",
+                "phpunit/phpunit": "^9.5",
+                "symfony/finder": "^5.2",
+                "symfony/var-dumper": "^5.2",
+                "vlucas/phpdotenv": "^5.3"
+            },
+            "suggest": {
+                "andrey-helldar/laravel-lang-publisher": "Easy installation and update of translation files for your project",
+                "arcanedev/laravel-lang": "Translations manager and checker for Laravel 5",
+                "overtrue/laravel-lang": "Command to add languages in your project"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Laravel-Lang Team",
+                    "homepage": "https://github.com/Laravel-Lang"
+                }
+            ],
+            "description": "Languages for Laravel",
+            "keywords": [
+                "lang",
+                "languages",
+                "laravel",
+                "lpm"
+            ],
+            "support": {
+                "issues": "https://github.com/Laravel-Lang/lang/issues",
+                "source": "https://github.com/Laravel-Lang/lang"
+            },
+            "time": "2021-05-24T18:25:22+00:00"
+        },
+        {
             "name": "laravel/framework",
             "version": "v8.42.1",
             "source": {
@@ -2896,6 +2954,56 @@
                 }
             ],
             "time": "2021-05-07T10:08:30+00:00"
+        },
+        {
+            "name": "nicolaslopezj/searchable",
+            "version": "1.13.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nicolaslopezj/searchable.git",
+                "reference": "b1d24ea45f75e36a11a093efa46fe44c06dd10b7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nicolaslopezj/searchable/zipball/b1d24ea45f75e36a11a093efa46fe44c06dd10b7",
+                "reference": "b1d24ea45f75e36a11a093efa46fe44c06dd10b7",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "illuminate/database": ">=4.2",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Nicolaslopezj\\Searchable\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Lopez",
+                    "email": "nicolaslopezj@me.com"
+                }
+            ],
+            "description": "Eloquent model search trait.",
+            "keywords": [
+                "database",
+                "eloquent",
+                "laravel",
+                "model",
+                "search",
+                "searchable"
+            ],
+            "support": {
+                "issues": "https://github.com/nicolaslopezj/searchable/issues",
+                "source": "https://github.com/nicolaslopezj/searchable/tree/master"
+            },
+            "time": "2020-03-30T12:30:18+00:00"
         },
         {
             "name": "nikic/php-parser",

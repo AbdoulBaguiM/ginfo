@@ -187,6 +187,7 @@ textarea.input {
   background: #FFF;
   border: 1px solid #E4E7ED;
   height: 40px;
+    width: 82%;
 }
 
 /*-- checkbox & radio input --*/
@@ -285,6 +286,13 @@ textarea.input {
 
 .input-radio input[type="radio"]:checked~.caption, .input-checkbox input[type="checkbox"]:checked~.caption {
   max-height: 800px;
+}
+
+/*----------------------------*\
+	Spacer
+\*----------------------------*/
+.spacer {
+    margin-bottom: 30px;
 }
 
 /*----------------------------*\

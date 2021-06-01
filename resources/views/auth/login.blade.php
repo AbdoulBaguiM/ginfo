@@ -1,73 +1,129 @@
 @extends('layout')
 
+@section('title', 'Connexion')
+
+@section('extra-css')
+    <style>
+        .auth-pages {
+            margin: 100px auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 100px;
+            min-height: 60vh;
+        }
+
+        .auth-pages input {
+            border: 1px solid ;
+            padding: 16px 10px;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .auth-pages input[type=checkbox] {
+            width: auto;
+        }
+
+        .auth-pages .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .auth-pages .auth-button {
+            background: #F96302;
+            color: white;
+            border-radius: 5px;
+            border: 1px solid #212121;
+            padding: 12px 50px;
+        }
+
+        .auth-pages .auth-button-hollow {
+            background: white;
+            color: #212121;
+            border-radius: 5px;
+            border: 1px solid #212121;
+            padding: 12px 50px;
+        }
+
+        .auth-pages .auth-button-hollow:hover {
+            background: #F96302;
+            color: #e9e9e9;
+        }
+
+        .auth-pages .auth-right {
+            border-left: 1px solid #CDCDCD;
+            padding-left: 100px;
+        }
+
+        .auth-pages .already-have-container {
+            text-align: right;
+        }
+    </style>
+@endsection
+
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+    <div class="container">
+        <div class="auth-pages">
+            <div class="auth-left">
+                @if (session()->has('success_message'))
+                    <div class="alert alert-success">
+                        {{ session()->get('success_message') }}
+                    </div>
+                @endif @if(count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <h3 align="center" style="color: black">Connectez-vous</h3>
+                <div class="spacer"></div>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
+                <form action="{{ route('login') }}" method="POST">
+                    {{ csrf_field() }}
 
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                    <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="Email" required autofocus>
+                    <input type="password" id="password" name="password" value="{{ old('password') }}" placeholder="Mot de passe" required>
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                    <div class="login-container">
+                        <button type="submit" class="auth-button">Connexion</button>
+                        <label>
+                            <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Se souvenir de moi
+                        </label>
+                    </div>
 
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                    <div class="spacer"></div>
 
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                    <a href="{{ route('password.request') }}">
+                        Mot de passe oublié ?
+                    </a>
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                </form>
+            </div>
 
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+            <div class="auth-right">
+                <h3 align="center" style="color: black">Créer un compte</h3>
 
-                        <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                <div class="spacer"></div>
+                &nbsp;
+                <div class="spacer"></div>
+                <p>Créez votre compte client en quelques clics ! Vous pourrez ainsi commander différents produits proposés par notre catalogue</p>
 
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
 
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                <div class="spacer"></div>
+                &nbsp;
+                <div class="spacer"></div>
+                &nbsp;
+
+
+                <a href="{{ route('register') }}" class="auth-button-hollow">Créer votre compte</a>
+
             </div>
         </div>
     </div>
-</div>
 @endsection

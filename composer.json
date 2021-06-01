@@ -15,9 +15,11 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "hardevine/shoppingcart": "^2.9",
         "illuminate/events": "^8.40",
+        "laravel-lang/lang": "^10.0",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2",
+        "nicolaslopezj/searchable": "^1.13",
         "tcg/voyager": "^1.4"
     },
     "require-dev": {
