@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title','Panier')
+@section('title','| Panier')
 
 @section('extra-css')
     <link rel="stylesheet" href="{{ asset('css/cart.css') }}">
@@ -14,7 +14,7 @@
     <div class="wrap cf">
         <div class="heading cf">
             <h1>Mon Panier</h1>
-            <a href="{{route('voir_produits')}}" class="btn continue">Retour a la boutique</a>
+            <a href="{{route('voir_produits')}}" class="btn-local continue">Retour a la boutique</a>
         </div>
         <div class="cart">
             @if (session()->has('success_message'))
@@ -40,6 +40,7 @@
                     <ul class="cartWrap">
                         @foreach(Cart::content() as $item)
                             <li class="items @if ($loop->iteration % 2 == 0) odd @else even @endif">
+                                <div class="product-widget">
                                 <div class="infoWrap">
                                     <div class="tableRow">
                                         <div class="cartSection">
@@ -49,25 +50,42 @@
                                                 <h3>{{$item->model->nom}}</h3>
                                             </a>
                                             <p>{{$item->model->details}}</p>
-                                            <p> <input type="number"  class="qty" placeholder="3"/> x $5.00</p>
 
-                                            <p class="stockStatus"> In Stock</p>
+                                            <div style="width: 18em">
+                                                <div class="input-group">
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="quant[{{$item->model->id}}]">
+                                                            <span class="glyphicon glyphicon-minus"></span>
+                                                        </button>
+                                                    </span>
+                                                    <input type="text" name="quant[{{$item->model->id}}]" class="form-control input-number" value="{{$item->qty}}" min="1" max="{{$item->model->quantite}}">
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[{{$item->model->id}}]">
+                                                            <span class="glyphicon glyphicon-plus"></span>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <p class="stockStatus"> En Stock</p>
                                         </div>
                                         <div class="cell2">
                                             <div class="prodTotal cartSection">
-                                                <p>{{number_format($item->model->prix_ht,2)}}Dhs</p>
-                                            </div>
+                                                <p>{{number_format($item->model->prix_ht,2)}}DHS</p>
                                             <div class="cartSection removeWrap">
+
                                                 <form action="{{route('supprimer_du_panier',$item->rowId)}}" method="POST">
                                                     @csrf
                                                     {{method_field('DELETE')}}
 
-                                                    <button class="remove" type="submit"><i class="fa fa-trash"></i></button>
+                                                    <button class="delete" type="submit"><i class="fa fa-close"></i></button>
 
                                                 </form>
+                                                </div>
                                             </div>
                                         </div>
-
+                                    </div>
+                                </div>
                                 </div>
                             </li>
                         @endforeach
@@ -75,30 +93,21 @@
                     </ul>
         </div>
 
-{{--        <div class="promoCode">--}}
-{{--            <label for="promo">Vous avez un Code Promo?</label>--}}
-{{--            <form action="{{route('ajouter_coupon')}}" method="POST">--}}
-{{--                @csrf--}}
-{{--                <input type="text" name="coupon_code" id="coupon_code" placeholder="Entrer le Code" />--}}
-{{--                <button type="submit" class="btn"></button>--}}
-{{--            </form>--}}
-{{--        </div>--}}
-
         <div class="subtotal cf">
             <ul>
-                <li class="totalRow"><span class="label">Subtotal</span><span class="value">{{Cart::subtotal()}} Dhs</span></li>
+                <li class="totalRow"><span class="label">Sous-Total</span><span class="value">{{Cart::subtotal()}} Dhs</span></li>
 
-                <li class="totalRow"><span class="label">Shipping</span><span class="value">$5.00</span></li>
+                <li class="totalRow"><span class="label">Frais de Livraison</span><span class="value">5.00 Dhs</span></li>
 
-                <li class="totalRow"><span class="label">Tax</span><span class="value">{{Cart::tax()}} Dhs</span></li>
+                <li class="totalRow"><span class="label">Taxe</span><span class="value">{{Cart::tax()}} Dhs</span></li>
                 <li class="totalRow final"><span class="label">Total</span><span class="value">{{Cart::total()}} Dhs</span></li>
-                <li class="totalRow"><a href="{{route('checkout_commande')}}" class="btn continue">Commander</a></li>
+                <li class="totalRow"><a href="{{route('checkout_commande')}}" class="btn-local continue">Commander</a></li>
             </ul>
         </div>
     </div>
 
     @else
-        <h3>Panier vide</h3>
+        <h4>Votre Panier est vide</h4>
     @endif
 @endsection
 

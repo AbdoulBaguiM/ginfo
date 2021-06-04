@@ -57,8 +57,11 @@ class ShopController extends Controller
         $produit = Produit::where('id',$id)->firstOrFail();
         $recommendations = Produit::where('id','!=',$id)->mightAlsoLike()->get();
 
+        $stockQ = getStockLevel($produit->quantite);
+
         return view('produit')->with([
             'produit' => $produit,
+            'stockQ' => $stockQ,
             'recommendations' => $recommendations,
         ]);
     }
@@ -66,14 +69,10 @@ class ShopController extends Controller
     public function search(Request $request)
     {
         $request->validate([
-            'query' => 'required|min:3',
+            'query' => 'required|min:2',
         ]);
 
         $query = request()->input('query');
-
-       /*$produits = Produit::where('nom', 'like', "%$query%")
-                            ->orWhere('details', 'like', "%$query%")
-                            ->paginate($this->pagination);*/
 
         $produits = Produit::search($query)->paginate($this->pagination);
 

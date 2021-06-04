@@ -11,6 +11,8 @@ class Produit extends Model
     use HasFactory;
     use SearchableTrait;
 
+    protected $fillable = ['quantite'];
+
     public function scopeMightAlsoLike($query){
         return $query->inRandomOrder()->take(4);
     }

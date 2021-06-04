@@ -56,13 +56,13 @@
                                     <input class="input" type="text" id="ville" name="ville" placeholder="Ville">
                                 </div>
                                 <div class="form-group">
-                                    <input class="input" type="text" id="pays" name="pays" placeholder="Pays">
+                                    <input class="input" type="text" id="pays" name="pays" placeholder="Pays" value="Maroc">
                                 </div>
                                 <div class="form-group">
                                     <input class="input" type="text" id="zip_code" name="zip_code" placeholder="Code Postal">
                                 </div>
                                 <div class="form-group">
-                                    <input class="input" type="tel" id="tel" name="tel" placeholder="Telephone">
+                                    <input class="input" type="tel" id="tel" name="tel" placeholder="Telephone" value="{{auth()->user()->telephone}}">
                                 </div>
                             </form>
 
@@ -104,7 +104,7 @@
                                 @foreach(Cart::content() as $item)
                                     <div class="order-col">
                                         <div>{{$item->name}}</div>
-                                        <div>{{number_format($item->price,2)}} Dhs</div>
+                                        <div>{{$item->qty}}x {{number_format($item->price,2)}} Dhs</div>
                                     </div>
                                 @endforeach
 							</div>

@@ -46,7 +46,12 @@ class CartController extends Controller
             return back()->with('success_message','Le produit est déjà dans votre Panier');
         }
 
-        Cart::add($request->id, $request->nom, 1, $request->prix_ht)
+        $quantite = $request->quant[$request->id];
+
+        if(!$quantite)
+            $quantite = 1;
+
+        Cart::add($request->id, $request->nom, $quantite, $request->prix_ht)
             ->associate('App\Models\Produit');
 
         return back()->with('success_message', 'Le produit a été ajouté a votre Panier');

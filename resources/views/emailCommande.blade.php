@@ -108,32 +108,32 @@
                         <td style="padding-top: 0;">
                             <table width="560" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner" style="border-bottom: 1px solid #eeeeee;">
                                 <tbody>
-                                <tr>
-                                    <td rowspan="4" style="padding-right: 10px; padding-bottom: 10px;">
-                                        <img style="height: 80px;" src="{{asset('storage/'.$produit->photo_principale)}}" alt="Product Image" />
-                                    </td>
-                                    <td colspan="2" style="font-size: 14px; font-weight: bold; color: #666666; padding-bottom: 5px;">
-                                        {{$produit->nom}}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="font-size: 14px; line-height: 18px; color: #757575; width: 440px;">
-                                        Quantité: 100
-                                    </td>
-                                    <td style="width: 130px;"></td>
-                                </tr>
-                                <tr>
-                                    <td style="font-size: 14px; line-height: 18px; color: #757575;"></td>
-                                    <td style="font-size: 14px; line-height: 18px; color: #757575; text-align: right;">
-                                        1x {{$produit->prix_ht}} DHS
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="font-size: 14px; line-height: 18px; color: #757575; padding-bottom: 10px;"></td>
-                                    <td style="font-size: 14px; line-height: 18px; color: #757575; text-align: right; padding-bottom: 10px;">
-                                        <b style="color: #666666;">1,234.50 DHS</b> Total
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td rowspan="4" style="padding-right: 10px; padding-bottom: 10px;">
+                                            <img style="height: 80px;" src="{{asset('storage/'.$produit->photo_principale)}}" alt="Product Image" />
+                                        </td>
+                                        <td colspan="2" style="font-size: 14px; font-weight: bold; color: #666666; padding-bottom: 5px;">
+                                            {{$produit->nom}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size: 14px; line-height: 18px; color: #757575; width: 440px;">
+                                            Quantité: {{$produit->pivot->quantite}}
+                                        </td>
+                                        <td style="width: 130px;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size: 14px; line-height: 18px; color: #757575;"></td>
+                                        <td style="font-size: 14px; line-height: 18px; color: #757575; text-align: right;">
+                                            {{$produit->pivot->quantite}}x {{$produit->prix_ht}} DHS
+                                        </td>
+                                    </tr>
+                                    {{--<tr>
+                                        <td style="font-size: 14px; line-height: 18px; color: #757575; padding-bottom: 10px;"></td>
+                                        <td style="font-size: 14px; line-height: 18px; color: #757575; text-align: right; padding-bottom: 10px;">
+                                            <b style="color: #666666;">1,234.50 DHS</b> Total
+                                        </td>
+                                    </tr>--}}
                                 </tbody>
                             </table>
                         </td>

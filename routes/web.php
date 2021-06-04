@@ -37,9 +37,8 @@ Route::get('/merci','App\Http\Controllers\ConfirmationController@index')->name('
 
 Route::get('/search','App\Http\Controllers\ShopController@search')->name('rechercher');
 
-Route::group(['prefix' => 'admin'], function () {
-    Voyager::routes();
-});
+//Voyager
+
 
 Auth::routes();
 

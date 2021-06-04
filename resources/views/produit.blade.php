@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title',$produit->nom)
+@section('title','| '.$produit->nom)
 
 @section('breadcrumb')
     @include('partials.breadcrumb')
@@ -79,7 +79,7 @@
                             </div>
                             <div>
                                 <h3 class="product-price">{{number_format($produit->prix_ht,2)}} Dhs<del class="product-old-price">$990.00</del></h3>
-                                <span class="product-available">In Stock</span>
+                                <span class="product-available">{!! $stockQ !!}</span>
                             </div>
                             <p>{{$produit->details}}</p>
 
@@ -97,25 +97,36 @@
                                     </select>
                                 </label>
                             </div>--}}
-
-                            <div class="add-to-cart">
-                                <div class="qty-label">
-                                    Qty
-                                    <div class="input-number">
-                                        <input type="number" value="1">
-                                        <span class="qty-up">+</span>
-                                        <span class="qty-down">-</span>
+                            @if($produit->quantite > 0 )
+                                <div class="add-to-cart">
+                                    <div class="qty-label" style="width: 20%;">
+                                        <div class="input-group">
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="quant[{{$produit->id}}]">
+                                                    <span class="glyphicon glyphicon-minus"></span>
+                                                </button>
+                                            </span>
+                                            <input type="text" name="quant[{{$produit->id}}]" class="form-control input-number" value="1" min="1" max="{{$produit->quantite}}" style="width: 50px" form="add_to_cart">
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[{{$produit->id}}]">
+                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                </button>
+                                            </span>
+                                        </div>
                                     </div>
+                                    <p></p>
+
+                                    <button  style="display: none">
+                                        <form action="{{ route('ajouter_au_panier', $produit) }}" method="POST" id="add_to_cart">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{$produit->id}}">
+                                            <input type="hidden" name="nom" value="{{$produit->nom}}">
+                                            <input type="hidden" name="prix_ht" value="{{$produit->prix_ht}}">
+                                            <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Ajouter au Panier</button>
+                                        </form>
+                                    </button>
                                 </div>
-                                <button style="display: none">
-                                    <form action="{{ route('ajouter_au_panier', $produit) }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="id" value="{{$produit->id}}">
-                                        <input type="hidden" name="nom" value="{{$produit->nom}}">
-                                        <input type="hidden" name="prix_ht" value="{{$produit->prix_ht}}">
-                                        <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Ajouter au Panier</button>
-                                    </form></button>
-                            </div>
+                            @endif
 
                             <ul class="product-btns">
                                 <li>
@@ -385,4 +396,79 @@
         <!-- /SECTION -->
 
         @include('partials.mightAlsoLike')
-    @endsection
+@endsection
+@section('extra-js')
+    <script>
+        $('.btn-number').click(function(e){
+            e.preventDefault();
+
+            fieldName = $(this).attr('data-field');
+            type      = $(this).attr('data-type');
+            var input = $("input[name='"+fieldName+"']");
+            var currentVal = parseInt(input.val());
+            if (!isNaN(currentVal)) {
+                if(type == 'minus') {
+
+                    if(currentVal > input.attr('min')) {
+                        input.val(currentVal - 1).change();
+                    }
+                    if(parseInt(input.val()) == input.attr('min')) {
+                        $(this).attr('disabled', true);
+                    }
+
+                } else if(type == 'plus') {
+
+                    if(currentVal < input.attr('max')) {
+                        input.val(currentVal + 1).change();
+                    }
+                    if(parseInt(input.val()) == input.attr('max')) {
+                        $(this).attr('disabled', true);
+                    }
+
+                }
+            } else {
+                input.val(0);
+            }
+        });
+        $('.input-number').focusin(function(){
+            $(this).data('oldValue', $(this).val());
+        });
+        $('.input-number').change(function() {
+
+            minValue =  parseInt($(this).attr('min'));
+            maxValue =  parseInt($(this).attr('max'));
+            valueCurrent = parseInt($(this).val());
+
+            name = $(this).attr('name');
+            if(valueCurrent >= minValue) {
+                $(".btn-number[data-type='minus'][data-field='"+name+"']").removeAttr('disabled')
+            } else {
+                alert('La valeur minimale est atteinte');
+                $(this).val($(this).data('oldValue'));
+            }
+            if(valueCurrent <= maxValue) {
+                $(".btn-number[data-type='plus'][data-field='"+name+"']").removeAttr('disabled')
+            } else {
+                alert('La valeur maximale est atteinte');
+                $(this).val($(this).data('oldValue'));
+            }
+
+
+        });
+        $(".input-number").keydown(function (e) {
+            // Allow: backspace, delete, tab, escape, enter and .
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 190]) !== -1 ||
+                // Allow: Ctrl+A
+                (e.keyCode == 65 && e.ctrlKey === true) ||
+                // Allow: home, end, left, right
+                (e.keyCode >= 35 && e.keyCode <= 39)) {
+                // let it happen, don't do anything
+                return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
+    </script>
+@endsection

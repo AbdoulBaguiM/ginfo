@@ -136,7 +136,7 @@
                                             </a>
                                             <div class="product-body">
                                                 <h3 class="product-name"><a href="{{route('voir_produit',$item->model->id)}}">{{$item->model->nom}}</a></h3>
-                                                <h4 class="product-price"><span class="qty">1x</span>{{number_format($item->model->prix_ht,2)}}Dhs</h4>
+                                                <h4 class="product-price"><span class="qty">{{$item->qty}}x</span>{{number_format($item->model->prix_ht,2)}}Dhs</h4>
                                             </div>
                                             <form action="{{route('supprimer_du_panier',$item->rowId)}}" method="POST">
                                                 {{csrf_field()}}
@@ -150,8 +150,8 @@
                                 </div>
                                 <div class="cart-summary">
                                     @if(Cart::instance('default')->count() > 0)
-                                        <small>{{Cart::instance('default')->count()}} Item(s) selected</small>
-                                        <h5>SUBTOTAL: {{Cart::subtotal()}} Dhs</h5>
+                                        <small>{{Cart::instance('default')->count()}} Produit(s)</small>
+                                        <h5>SOUS-TOTAL: {{Cart::subtotal()}} Dhs</h5>
                                     @else
                                         <small>Votre panier est vide</small>
                                     @endif

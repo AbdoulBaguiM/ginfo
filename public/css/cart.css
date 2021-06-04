@@ -245,21 +245,6 @@
             font-family: helvetica, arial, sans-serif;
         }
 
-       button.remove {
-           width: 30px;
-           display: inline-block;
-           border-radius: 20%;
-           -webkit-transition: all 0.2s linear;
-           -moz-transition: all 0.2s linear;
-           -ms-transition: all 0.2s linear;
-           -o-transition: all 0.2s linear;
-           transition: all 0.2s linear;
-        }
-        button.remove:hover {
-            color: red;
-            /*background: #ff3232;*/
-        }
-
         .promoCode {
             border: 2px solid #efefef;
             float: left;
@@ -285,7 +270,7 @@
         }
 
 
-        .btn:link, .btn:visited {
+        .btn-local:link, .btn-local:visited {
             text-decoration: none;
             font-family: "Montserrat", sans-serif;
             letter-spacing: -.015em;
@@ -303,7 +288,7 @@
             -o-transition: all 0.25s linear;
             transition: all 0.25s linear;
         }
-        .btn:after {
+        .btn-local:after {
             content: "\276f";
             padding: .5em;
             position: relative;
@@ -314,14 +299,14 @@
             -o-transition: all 0.15s linear;
             transition: all 0.15s linear;
         }
-        .btn:hover, .btn:focus, .btn:active {
+        .btn-local:hover, .btn-local:focus, .btn-local:active {
             background: #FA731C;
             color: #fff;
         }
-        .btn:hover:after, .btn:focus:after, .btn:active:after {
+        .btn-local:hover:after, .btn-local:focus:after, .btn-local:active:after {
             right: -10px;
         }
-        .promoCode .btn {
+        .promoCode .btn-local {
             font-size: .85em;
             paddding: .5em 2em;
         }
@@ -329,7 +314,7 @@
         /* TOTAL AND CHECKOUT  */
         .subtotal {
             float: right;
-            width: 35%;
+            width: 50%;
         }
         .subtotal .totalRow {
             padding: .5em;
@@ -419,7 +404,7 @@
                 width: 100%;
             }
 
-            a.btn.continue {
+            a.btn-local.continue {
                 width: 100%;
                 text-align: center;
             }

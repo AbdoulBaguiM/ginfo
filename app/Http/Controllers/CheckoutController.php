@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\CommandeEffectue;
 use App\Models\Commande;
 use App\Models\CommandeProduit;
+use App\Models\Produit;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -44,6 +45,13 @@ class CheckoutController extends Controller
      */
     public function store(Request $request)
     {
+        //Verification
+        if($this->productsAreNoLongerAvailable()){
+            Cart::instance('default')->destroy();
+            return back()->withErrors('Désolé, un des produits dans votre panier n\'est plus disponible');
+        }
+
+
         //Insert into Commandes table
 
         $commande = Commande::create([
@@ -70,12 +78,13 @@ class CheckoutController extends Controller
             CommandeProduit::create([
                 'commande_id' => $commande->id,
                 'produit_id' => $item->model->id,
-                'quantite' => $item->model->quantite,
+                'quantite' => $item->qty,
             ]);
         }
 
         //SUCCES
 
+        $this->decreaseQuantities();
         Mail::send(new CommandeEffectue($commande));
 
         Cart::instance('default')->destroy();
@@ -150,5 +159,25 @@ class CheckoutController extends Controller
             'newTax' => $newTax,
             'newTotal' => $newTotal,
         ]);
+    }
+
+    public function decreaseQuantities()
+    {
+        foreach (Cart::content() as $item){
+            $produit = Produit::find($item->model->id);
+
+            $produit->update(['quantite' => $produit->quantite - $item->qty]);
+        }
+
+    }
+
+    public function productsAreNoLongerAvailable()
+    {
+        foreach (Cart::content() as $item){
+            $produit = Produit::find($item->model->id);
+            if($produit->quantite < $item->qty)
+                return true;
+        }
+        return false;
     }
 }
