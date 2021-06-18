@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
-use App\Models\Categorie;
-use Illuminate\Support\Facades\View;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\ServiceProvider;
+use TCG\Voyager\Http\Controllers\VoyagerController;
+use App\Http\Controllers\Voyager\MyVoyagerController;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(VoyagerController::class, MyVoyagerController::class);
     }
 
     /**
@@ -25,6 +26,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Carbon::setLocale(config('app.locale'));
     }
 }

@@ -51,10 +51,10 @@ class LoginController extends Controller
 
     public function redirectTo()
     {
-
         if (auth()->user()->role->name == "admin") {
             return '/admin';
-        }
+        }elseif (auth()->user()->role->name == "superUser")
+            return '/admin';
 
         return str_replace(url('/'),'',session()->get('previousURL','/'));
     }

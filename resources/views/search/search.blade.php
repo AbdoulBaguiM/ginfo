@@ -1,7 +1,11 @@
 @extends('layout')
 
 @section('breadcrumb')
-    @include('partials.breadcrumb')
+    @if(request()->input('query'))
+        @include('partials.breadcrumb',['page' => 'Recherche', 'lien' => 'voir_produits'])
+    @else
+        @include('partials.breadcrumb',['page' => 'Promotions', 'lien' => 'voir_promotions'])
+    @endif
 @endsection
 
 @section('content')
@@ -20,9 +24,15 @@
                     <div class="store-filter clearfix">
                         <div class="store-sort">
                             <label>
-                                <h4>
-                                    {{request()->input('query')}} : {{$produits->count()}} Résultat(s)
-                                </h4>
+                                @if(request()->input('query'))
+                                    <h4>
+                                        {{request()->input('query')}} : {{$produits->count()}} Résultat(s)
+                                    </h4>
+                                @else
+                                    <h4>
+                                        {{$produits->count()}} Produits en Promotion
+                                    </h4>
+                                @endif
                             </label>
                         </div>
                     </div>
@@ -54,7 +64,9 @@
                                         <div class="product-img">
                                             <img src="{{asset('storage/'.$produit->photo_principale)}}" alt="">
                                             <div class="product-label">
-                                                <span class="sale">-30%</span>
+                                                @if($produit->promotion)
+                                                    <span class="sale">-{{getProductPromotion($produit)}}%</span>
+                                                @endif
                                                 @if($produit->featured)
                                                     <span class='new'>NEW</span>
                                                 @endif
@@ -65,26 +77,24 @@
                                                 <p class="product-category">{{$produit->categories()->first()->nom}}</p>
                                             @endif
                                             <h3 class="product-name"><a href="{{route('voir_produit',$produit->id)}}">{{$produit->nom}}</a></h3>
-                                            <h4 class="product-price">{{number_format($produit->prix_ht,2)}}Dhs<del class="product-old-price">990.00Dhs</del></h4>
-                                            <div class="product-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
+                                                <h4 class="product-price">{{getProductPrice($produit)}} Dhs
+                                                    @if(getProductDelPrice($produit))
+                                                        <del class="product-old-price"> {{getProductDelPrice($produit)}} Dhs</del>
+                                                    @endif
+                                                </h4>
+                                                <div class="product-rating">
+                                                @foreach(range(1,5) as $star)
+                                                    <i class="fa fa-star{{$produit->rating_cache >= $star ? '' : '-o empty'}}"></i>
+                                                @endforeach
                                             </div>
                                             <div class="product-btns">
-                                                <button class="add-to-wishlist">
                                                     <form action="{{ route('ajouter_a_la_wishlist', $produit) }}" method="POST">
                                                         @csrf
                                                         <input type="hidden" name="id" value="{{$produit->id}}">
                                                         <input type="hidden" name="nom" value="{{$produit->nom}}">
                                                         <input type="hidden" name="prix_ht" value="{{$produit->prix_ht}}">
-                                                        <button type="submit"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                        <button class="unstyled-button" type="submit"><i class="fa fa-heart-o"></i><span class="tooltipp">Ajouter à la wishlist</span></button>
                                                     </form>
-                                                </button>
-                                                <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                                                <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
                                             </div>
                                         </div>
                                         <div class="add-to-cart">

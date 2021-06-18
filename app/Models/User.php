@@ -18,8 +18,12 @@ class User extends \TCG\Voyager\Models\User
      */
     protected $fillable = [
         'name',
+        'last_name',
         'email',
         'telephone',
+        'adresse',
+        'ville',
+        'zipcode',
         'password',
     ];
 
@@ -45,5 +49,10 @@ class User extends \TCG\Voyager\Models\User
     public function commande()
     {
         return $this->hasMany('App\Models\Commande');
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany('App\Models\Review');
     }
 }

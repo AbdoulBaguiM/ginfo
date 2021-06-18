@@ -23,7 +23,6 @@ class CreateCommandesTable extends Migration
             $table->string('c_email');
             $table->string('c_adresse');
             $table->string('c_ville');
-            $table->string('c_pays');
             $table->string('c_zipcode');
             $table->string('c_telephone');
             $table->integer('c_discount')->default(0);
@@ -31,6 +30,7 @@ class CreateCommandesTable extends Migration
             $table->integer('c_subtotal');
             $table->integer('c_taxe');
             $table->integer('c_total');
+            $table->boolean('c_payement');
             $table->boolean('statut')->default(false);
             $table->string('erreur')->nullable();
 

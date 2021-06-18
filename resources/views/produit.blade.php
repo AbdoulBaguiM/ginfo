@@ -3,7 +3,7 @@
 @section('title','| '.$produit->nom)
 
 @section('breadcrumb')
-    @include('partials.breadcrumb')
+    @include('partials.breadcrumb',['page' => 'Boutique', 'lien' => 'voir_produits'])
 @endsection
 
 @section('content')
@@ -69,16 +69,18 @@
                             <h2 class="product-name">{{$produit->nom}}</h2>
                             <div>
                                 <div class="product-rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-o"></i>
+                                    @foreach(range(1,5) as $star)
+                                        <i class="fa fa-star{{$produit->rating_cache >= $star ? '' : '-o empty'}}"></i>
+                                    @endforeach
                                 </div>
-                                <a class="review-link" href="#">10 Review(s) | Add your review</a>
+                                <a class="review-link" href="#">{{$produit->reviews()->count()}} Review(s) | Ajouter une note</a>
                             </div>
                             <div>
-                                <h3 class="product-price">{{number_format($produit->prix_ht,2)}} Dhs<del class="product-old-price">$990.00</del></h3>
+                                <h3 class="product-price">{{getProductPrice($produit)}} Dhs
+                                    @if(getProductDelPrice($produit))
+                                        <del class="product-old-price"> {{getProductDelPrice($produit)}} Dhs</del>
+                                    @endif
+                                </h3>
                                 <span class="product-available">{!! $stockQ !!}</span>
                             </div>
                             <p>{{$produit->details}}</p>
@@ -106,7 +108,7 @@
                                                     <span class="glyphicon glyphicon-minus"></span>
                                                 </button>
                                             </span>
-                                            <input type="text" name="quant[{{$produit->id}}]" class="form-control input-number" value="1" min="1" max="{{$produit->quantite}}" style="width: 50px" form="add_to_cart">
+                                            <input type="text" name="quant[{{$produit->id}}]" class="form-control input-number" value="1" min="1" max="{{$produit->quantite}}" style="width: 65px;text-align: center" form="add_to_cart" >
                                             <span class="input-group-btn">
                                                 <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[{{$produit->id}}]">
                                                     <span class="glyphicon glyphicon-plus"></span>
@@ -135,10 +137,9 @@
                                         <input type="hidden" name="id" value="{{$produit->id}}">
                                         <input type="hidden" name="nom" value="{{$produit->nom}}">
                                         <input type="hidden" name="prix_ht" value="{{$produit->prix_ht}}">
-                                        <button type="submit"><i class="fa fa-heart-o"></i>Ajouter a la Wishlist</button>
+                                        <button class="unstyled-button" type="submit" style="font-weight: 500;text-transform: uppercase;"><i class="fa fa-heart-o"></i> Ajouter à la Wishlist</button>
                                     </form>
                                 </li>
-                                <li><a href="#"><i class="fa fa-exchange"></i> add to compare</a></li>
                             </ul>
 
                             <ul class="product-links">
@@ -181,7 +182,7 @@
                             <ul class="tab-nav">
                                 <li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
                                 <li><a data-toggle="tab" href="#tab2">Détails</a></li>
-                                <li><a data-toggle="tab" href="#tab3">Reviews (3)</a></li>
+                                <li><a data-toggle="tab" href="#tab3">Reviews ({{$produit->reviews()->count()}})</a></li>
                             </ul>
                             <!-- /product tab nav -->
 
@@ -214,13 +215,12 @@
                                         <div class="col-md-3">
                                             <div id="rating">
                                                 <div class="rating-avg">
-                                                    <span>4.5</span>
+                                                    <span>{{$produit->rating_cache}}</span>
                                                     <div class="rating-stars">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o"></i>
+                                                        @foreach(range(1,5) as $star)
+                                                            <i class="fa fa-star{{$produit->rating_cache >= $star ? '' : '-o empty'}}"></i>
+                                                        @endforeach
+
                                                     </div>
                                                 </div>
                                                 <ul class="rating">
@@ -233,9 +233,9 @@
                                                             <i class="fa fa-star"></i>
                                                         </div>
                                                         <div class="rating-progress">
-                                                            <div style="width: 80%;"></div>
+                                                            <div style="width: {{$reviewDetails['widthR'][5]}}%;"></div>
                                                         </div>
-                                                        <span class="sum">3</span>
+                                                        <span class="sum">{{$reviewDetails['countR'][5]}}</span>
                                                     </li>
                                                     <li>
                                                         <div class="rating-stars">
@@ -246,9 +246,9 @@
                                                             <i class="fa fa-star-o"></i>
                                                         </div>
                                                         <div class="rating-progress">
-                                                            <div style="width: 60%;"></div>
+                                                            <div style="width: {{$reviewDetails['widthR'][4]}}%;"></div>
                                                         </div>
-                                                        <span class="sum">2</span>
+                                                        <span class="sum">{{$reviewDetails['countR'][4]}}</span>
                                                     </li>
                                                     <li>
                                                         <div class="rating-stars">
@@ -259,9 +259,9 @@
                                                             <i class="fa fa-star-o"></i>
                                                         </div>
                                                         <div class="rating-progress">
-                                                            <div></div>
+                                                            <div style="width: {{$reviewDetails['widthR'][3]}}%;"></div>
                                                         </div>
-                                                        <span class="sum">0</span>
+                                                        <span class="sum">{{$reviewDetails['countR'][3]}}</span>
                                                     </li>
                                                     <li>
                                                         <div class="rating-stars">
@@ -272,9 +272,9 @@
                                                             <i class="fa fa-star-o"></i>
                                                         </div>
                                                         <div class="rating-progress">
-                                                            <div></div>
+                                                            <div style="width: {{$reviewDetails['widthR'][2]}}%;"></div>
                                                         </div>
-                                                        <span class="sum">0</span>
+                                                        <span class="sum">{{$reviewDetails['countR'][2]}}</span>
                                                     </li>
                                                     <li>
                                                         <div class="rating-stars">
@@ -285,9 +285,9 @@
                                                             <i class="fa fa-star-o"></i>
                                                         </div>
                                                         <div class="rating-progress">
-                                                            <div></div>
+                                                            <div style="width:{{$reviewDetails['widthR'][1]}}%;"></div>
                                                         </div>
-                                                        <span class="sum">0</span>
+                                                        <span class="sum">{{$reviewDetails['countR'][1]}}</span>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -298,62 +298,32 @@
                                         <div class="col-md-6">
                                             <div id="reviews">
                                                 <ul class="reviews">
-                                                    <li>
-                                                        <div class="review-heading">
-                                                            <h5 class="name">John</h5>
-                                                            <p class="date">27 DEC 2018, 8:0 PM</p>
-                                                            <div class="review-rating">
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star-o empty"></i>
+                                                    @forelse($reviews as $review)
+
+                                                        <li>
+                                                            <div class="review-heading">
+                                                                <h5 class="name">{{$review->user->name}}</h5>
+                                                                <p class="date">{{presentDate($review->updated_at)}}</p>
+                                                                <div class="review-rating">
+                                                                    @foreach(range(1,5) as $star)
+                                                                        <i class="fa fa-star{{$review->note >= $star ? '' : '-o empty'}}"></i>
+                                                                    @endforeach
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="review-body">
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="review-heading">
-                                                            <h5 class="name">John</h5>
-                                                            <p class="date">27 DEC 2018, 8:0 PM</p>
-                                                            <div class="review-rating">
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star-o empty"></i>
+                                                            <div class="review-body">
+                                                                <p>{{$review->message}}</p>
+                                                                @if($review->statut)
+                                                                    <p align="right" style="color: lawngreen;font-size: small"><i class="fa fa-check-circle-o"></i> Achat vérifié</p>
+                                                                @endif
                                                             </div>
-                                                        </div>
-                                                        <div class="review-body">
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="review-heading">
-                                                            <h5 class="name">John</h5>
-                                                            <p class="date">27 DEC 2018, 8:0 PM</p>
-                                                            <div class="review-rating">
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star-o empty"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="review-body">
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-                                                        </div>
-                                                    </li>
+                                                        </li>
+                                                    @empty
+                                                        <li><p>Aucune note pour ce produit, soyez le premier</p></li>
+                                                    @endforelse
+
                                                 </ul>
-                                                <ul class="reviews-pagination">
-                                                    <li class="active">1</li>
-                                                    <li><a href="#">2</a></li>
-                                                    <li><a href="#">3</a></li>
-                                                    <li><a href="#">4</a></li>
-                                                    <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-                                                </ul>
+
+                                                {{$reviews->appends(request()->input())->links("pagination::bootstrap-4")}}
                                             </div>
                                         </div>
                                         <!-- /Reviews -->
@@ -361,12 +331,14 @@
                                         <!-- Review Form -->
                                         <div class="col-md-3">
                                             <div id="review-form">
-                                                <form class="review-form">
-                                                    <input class="input" type="text" placeholder="Your Name">
-                                                    <input class="input" type="email" placeholder="Your Email">
-                                                    <textarea class="input" placeholder="Your Review"></textarea>
+                                                <form class="review-form" action="{{route('ajouter_review')}}" method="POST">
+                                                    @csrf
+                                                    <input name="id" type="hidden" value="{{$produit->id}}">
+                                                    <input class="input" name="nom" type="text" value="{{auth()->user()? auth()->user()->name : null}}" placeholder="Nom">
+                                                    <input class="input" name="email" type="email" value="{{auth()->user()? auth()->user()->email : null}}" placeholder="Email">
+                                                    <textarea class="input" name="commentaire" placeholder="Commentaire"></textarea>
                                                     <div class="input-rating">
-                                                        <span>Your Rating: </span>
+                                                        <span>Note: </span>
                                                         <div class="stars">
                                                             <input id="star5" name="rating" value="5" type="radio"><label for="star5"></label>
                                                             <input id="star4" name="rating" value="4" type="radio"><label for="star4"></label>
@@ -375,7 +347,7 @@
                                                             <input id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
                                                         </div>
                                                     </div>
-                                                    <button class="primary-btn">Submit</button>
+                                                    <button class="primary-btn" type="submit">Envoyer</button>
                                                 </form>
                                             </div>
                                         </div>

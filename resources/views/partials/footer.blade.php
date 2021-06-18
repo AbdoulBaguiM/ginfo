@@ -8,19 +8,19 @@
             <div class="row">
                 <div class="col-md-3 col-xs-6">
                     <div class="footer">
-                        <h3 class="footer-title">About Us</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</p>
+                        <h3 class="footer-title">À Propos</h3>
+                        <p>{{setting('site.about_us')}}</p>
                         <ul class="footer-links">
-                            <li><a href="#"><i class="fa fa-map-marker"></i>67, Hay Farah II, Rue Khalil - Fès</a></li>
-                            <li><a href="#"><i class="fa fa-phone"></i>+212-662-158-998</a></li>
-                            <li><a href="#"><i class="fa fa-envelope-o"></i>ginfofes@gmail.com</a></li>
+                            <li><a href="#"><i class="fa fa-map-marker"></i>{{setting('site.localisation')}}</a></li>
+                            <li><a href="#"><i class="fa fa-phone"></i>{{setting('site.phone_number')}}</a></li>
+                            <li><a href="#"><i class="fa fa-envelope-o"></i>{{setting('site.mail_address')}}</a></li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="col-md-3 col-xs-6">
                     <div class="footer">
-                        <h3 class="footer-title">Categories</h3>
+                        <h3 class="footer-title">Catégories</h3>
                         <ul class="footer-links">
                             <li><a href="#">Hot deals</a></li>
                             <li><a href="#">Laptops</a></li>
@@ -35,26 +35,23 @@
 
                 <div class="col-md-3 col-xs-6">
                     <div class="footer">
-                        <h3 class="footer-title">Information</h3>
+                        <h3 class="footer-title">Informations</h3>
                         <ul class="footer-links">
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Orders and Returns</a></li>
-                            <li><a href="#">Terms & Conditions</a></li>
+                            <li><a href="#">Qui sommes-nous ?</a></li>
+                            <li><a href="{{route('contactez-nous')}}">Contactez-nous</a></li>
+                            <li><a href="#">Termes & Conditions</a></li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="col-md-3 col-xs-6">
                     <div class="footer">
-                        <h3 class="footer-title">Service</h3>
+                        <h3 class="footer-title">Services</h3>
                         <ul class="footer-links">
-                            <li><a href="#">My Account</a></li>
-                            <li><a href="#">View Cart</a></li>
-                            <li><a href="#">Wishlist</a></li>
-                            <li><a href="#">Track My Order</a></li>
-                            <li><a href="#">Help</a></li>
+                            <li><a href="{{route('modifier_mon_profil')}}">Mon Compte</a></li>
+                            <li><a href="{{route('voir_panier')}}">Voir le Panier</a></li>
+                            <li><a href="#">Liste d'envie</a></li>
+                            <li><a href="{{route('contactez-nous')}}">Besoin d'aide</a></li>
                         </ul>
                     </div>
                 </div>

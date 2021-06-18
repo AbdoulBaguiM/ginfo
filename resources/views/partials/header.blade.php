@@ -4,29 +4,45 @@
     <div id="top-header">
         <div class="container">
             <ul class="header-links pull-left">
-                <li><a href="#"><i class="fa fa-phone"></i> +212-662-158-998</a></li>
-                <li><a href="#"><i class="fa fa-envelope-o"></i> ginfofes@gmail.com</a></li>
-                <li><a href="#"><i class="fa fa-map-marker"></i> 67, Hay Farah II, Rue Khalil - Fès</a></li>
+                <li><a href="#"><i class="fa fa-phone"></i> {{setting('site.phone_number')}}</a></li>
+                <li><a href="#"><i class="fa fa-envelope-o"></i> {{setting('site.mail_address')}}</a></li>
+                <li><a href="#"><i class="fa fa-map-marker"></i> {{setting('site.localisation')}}</a></li>
             </ul>
+
             <ul class="header-links pull-right">
-                <li><a href="#"><i class="fa fa-dollar"></i> DHS</a></li>
                 @guest
                     <li><a href="{{route('login')}}"><i class="fa fa-lock"></i>Mon Compte</a></li>
                 @else
-                    <li>
-                        <div class="dropdown">
-                            <a class="dropdown-item" href="{{ route('logout') }}"
-                               onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();"><i class="fa fa-user-o"></i>
-                                {{ __('Logout') }}
-                            </a>
+                    <li class="dropdown profile" style="margin-right: 3%">
+                        <a href="#" class="dropdown-toggle text-right" data-toggle="dropdown" role="button"
+                           aria-expanded="false"><nobr><i class="fa fa-user"></i> Bienvenue {{auth()->user()->name}} <i class="fa fa-caret-down"></i></a></nobr>
 
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                        </div>
+                        <ul class="dropdown-menu dropdown-menu-animated">
+                            <br>
+                            <li class="profile-img" style="display: inline-flex">
+                                <img src="{{ asset('storage/'.auth()->user()->avatar) }}" style="width: 50px;border-radius: 10px">
+                                <div class="profile-body">
+                                    <h5>{{ Auth::user()->name }}</h5>
+                                    <h6>{{ Auth::user()->email }}</h6>
+                                </div>
+                            </li>
+                            <hr>
+                            <li>
+                                <a href="{{route('modifier_mon_profil')}}" style="color: black;">
+                                    <i class="fa fa-user"></i> Mon Profil
+                                </a>
+                            </li>
+                            <div class="spacer"></div>
+                            <li>
+                                <form action="{{ route('logout') }}" method="POST">
+                                    {{ csrf_field() }}
+                                    <button type="submit" class="secondary-btn"  style="margin-left: 18px;">
+                                        Deconnexion
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
                     </li>
-
                 @endguest
             </ul>
         </div>
@@ -43,7 +59,7 @@
                 <div class="col-md-3">
                     <div class="header-logo">
                         <a href="{{route('acceuil')}}" class="logo">
-                            <img src="{{asset('img/logo.png')}}" alt="">
+                            <img src="{{asset('storage/'.setting('site.logo'))}}" alt="">
                         </a>
                     </div>
                 </div>
@@ -85,10 +101,14 @@
                                                 <h3 class="product-name"><a href="{{route('voir_produit',$item->model->id)}}">{{$item->model->nom}}</a></h3>
                                                 <h4 class="product-price">{{number_format($item->model->prix_ht,2)}}Dhs</h4>
                                                 <span class="qty">
-                                                   <form action="{{route('envoyer_au_panier',$item->rowId)}}" method="POST">
-                                                       @csrf
-                                                       <button type="submit"><i class="fa fa-arrow-right"></i></button>
-                                                    </form>
+                                                    @if($item->model->quantite > 0 )
+                                                       <form action="{{route('envoyer_au_panier',$item->rowId)}}" method="POST">
+                                                           @csrf
+                                                           <button class="unstyled-button" type="submit" style="font-size: 11px"><i class="fa fa-arrow-right"></i> Envoyer au Panier</button>
+                                                        </form>
+                                                    @else
+                                                        <p style="color: red;font-size: 11px">Epuisé</p>
+                                                    @endif
                                                 </span>
                                             </div>
                                             <form action="{{route('supprimer_de_la_wishlist',$item->rowId)}}" method="POST">
@@ -103,7 +123,7 @@
                                 </div>
                                 <div class="cart-summary">
                                     @if(Cart::instance('wishlist')->count() > 0)
-                                        <small>{{Cart::instance('wishlist')->count()}} Item(s) selected</small>
+                                        <small>{{Cart::instance('wishlist')->count()}} Produit(s)</small>
                                     @else
                                         <small>Votre Wishlist est vide</small>
                                     @endif
@@ -111,6 +131,7 @@
                                 </div>
                                 <div class="cart-btns">
                                     <a href="{{route('voir_panier')}}">Voir le Panier</a>
+                                    <a href="{{route('vider_la_wishlist')}}" style="background-color: red;">Vider <i class="fa fa-trash-o"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -153,7 +174,7 @@
                                         <small>{{Cart::instance('default')->count()}} Produit(s)</small>
                                         <h5>SOUS-TOTAL: {{Cart::subtotal()}} Dhs</h5>
                                     @else
-                                        <small>Votre panier est vide</small>
+                                        <small>Votre Panier est vide</small>
                                     @endif
 
                                 </div>

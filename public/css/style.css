@@ -105,8 +105,50 @@ ul, ol {
 }
 
 .primary-btn:hover, .primary-btn:focus {
-  opacity: 0.9;
+  opacity: 0.7;
   color: #FFF;
+}
+
+.secondary-btn {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: #EEEEEE;
+    border: none;
+    border-radius: 40px;
+    color: #1E1F29;
+    text-transform: uppercase;
+    font-weight: 700;
+    text-align: center;
+    -webkit-transition: 0.2s all;
+    transition: 0.2s all;
+}
+
+.secondary-btn:hover, .secondary-btn:focus {
+    color: #f96302;
+}
+
+.unstyled-button {
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+.unstyled-button:hover{
+    color: #f96302;
+}
+
+.unstyled-link {
+    float: right;
+    padding: 0;
+    border: none;
+    background: none;
+    color: #f96302;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.unstyled-link:hover{
+    opacity: 50%;
 }
 
 /*----------------------------*\
@@ -976,7 +1018,7 @@ textarea.input {
   background-color: #E4E7ED;
 }
 
-.product .product-body .product-btns>button {
+.product .product-body .product-btns>form>button {
   position: relative;
   width: 40px;
   height: 40px;
@@ -987,20 +1029,20 @@ textarea.input {
   transition: 0.2s all;
 }
 
-.product .product-body .product-btns>button:hover {
+.product .product-body .product-btns>form>button:hover {
   background-color: #E4E7ED;
   color: #f96302;
   border-radius: 50%;
 }
 
-.product .product-body .product-btns>button .tooltipp {
+.product .product-body .product-btns>form>button .tooltipp {
   position: absolute;
   bottom: 100%;
   left: 50%;
   -webkit-transform: translate(-50%, -15px);
   -ms-transform: translate(-50%, -15px);
   transform: translate(-50%, -15px);
-  width: 150px;
+  width: 200px;
   padding: 10px;
   font-size: 12px;
   line-height: 10px;
@@ -1014,7 +1056,7 @@ textarea.input {
   transition: 0.2s all;
 }
 
-.product .product-body .product-btns>button:hover .tooltipp {
+.product .product-body .product-btns>form>button:hover .tooltipp {
   opacity: 1;
   visibility: visible;
   -webkit-transform: translate(-50%, -5px);

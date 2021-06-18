@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Listeners\SendNewUserNotification;
+use App\Notifications\NewUserNotification;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -65,11 +68,19 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'telephone' => $data['telephone'],
             'password' => Hash::make($data['password']),
         ]);
+
+        $admin = User::find(1);
+        $superU = User::find(2);
+
+        $admin->notify(new NewUserNotification($user));
+        $superU->notify(new NewUserNotification($user));
+
+        return $user;
     }
 }

@@ -65,28 +65,32 @@
 
 @section('content')
     <div class="container">
+        <br>
+        @if (session()->has('success_message'))
+            <div class="alert alert-success">
+                {{ session()->get('success_message') }}
+            </div>
+        @endif
+
+        @if(count($errors) > 0)
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="auth-pages">
             <div class="auth-left">
-                @if (session()->has('success_message'))
-                    <div class="alert alert-success">
-                        {{ session()->get('success_message') }}
-                    </div>
-                @endif @if(count($errors) > 0)
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
                 <h3 align="center" style="color: black">Connectez-vous</h3>
                 <div class="spacer"></div>
 
                 <form action="{{ route('login') }}" method="POST">
                     {{ csrf_field() }}
 
-                    <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="Email" required autofocus>
+                    <input type="email" id="email" name="email" value="{{ old('email')}}" placeholder="Email" required autofocus>
                     <input type="password" id="password" name="password" value="{{ old('password') }}" placeholder="Mot de passe" required>
 
                     <div class="login-container">

@@ -19,41 +19,47 @@
                             <div class="product-img">
                                 <img src="{{asset('storage/'.$produit->photo_principale)}}" alt="">
                                 <div class="product-label">
-                                    <span class="sale">-30%</span>
+                                    @if($produit->promotion)
+                                        <span class="sale">-{{getProductPromotion($produit)}}%</span>
+                                    @endif
                                     @if($produit->featured)
-                                        <span class="new">NEW</span>
+                                        <span class='new'>NEW</span>
                                     @endif
                                 </div>
                             </div>
                             <div class="product-body">
-                                <p class="product-category">{{$produit->categories()->first()->nom}}</p>
+                                @if($produit->categories()->first())
+                                    <p class="product-category">{{$produit->categories()->first()->nom}}</p>
+                                @endif
                                 <h3 class="product-name"><a href="#">{{$produit->nom}}</a></h3>
-                                <h4 class="product-price">{{number_format($produit->prix_ht,2)}} <del class="product-old-price">$990.00</del></h4>
-                                <div class="product-rating">
+                                    <h4 class="product-price">{{getProductPrice($produit)}} Dhs
+                                        @if(getProductDelPrice($produit))
+                                            <del class="product-old-price"> {{getProductDelPrice($produit)}} Dhs</del>
+                                        @endif
+                                    </h4>
+                                    <div class="product-rating">
                                 </div>
                                 <div class="product-btns">
-                                    <button class="add-to-wishlist">
-                                        <form action="{{ route('ajouter_a_la_wishlist', $produit) }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="id" value="{{$produit->id}}">
-                                            <input type="hidden" name="nom" value="{{$produit->nom}}">
-                                            <input type="hidden" name="prix_ht" value="{{$produit->prix_ht}}">
-                                            <button type="submit"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                                        </form>
-                                    </button>
-                                    <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                                    <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                                    <form action="{{ route('ajouter_a_la_wishlist', $produit) }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{$produit->id}}">
+                                        <input type="hidden" name="nom" value="{{$produit->nom}}">
+                                        <input type="hidden" name="prix_ht" value="{{$produit->prix_ht}}">
+                                        <button class="unstyled-button" type="submit"><i class="fa fa-heart-o"></i><span class="tooltipp">Ajouter à la wishlist</span></button>
+                                    </form>
                                 </div>
                             </div>
-                            <div class="add-to-cart">
-                                <form action="{{ route('ajouter_au_panier', $produit) }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="id" value="{{$produit->id}}">
-                                    <input type="hidden" name="nom" value="{{$produit->nom}}">
-                                    <input type="hidden" name="prix_ht" value="{{$produit->prix_ht}}">
-                                    <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>J'achète</button>
-                                </form>
-                            </div>
+                            @if($produit->quantite > 0 )
+                                <div class="add-to-cart">
+                                    <form action="{{ route('ajouter_au_panier', $produit) }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{$produit->id}}">
+                                        <input type="hidden" name="nom" value="{{$produit->nom}}">
+                                        <input type="hidden" name="prix_ht" value="{{$produit->prix_ht}}">
+                                        <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>J'achète</button>
+                                    </form>
+                                </div>
+                            @endif
                         </div>
                     </a>
                 </div>

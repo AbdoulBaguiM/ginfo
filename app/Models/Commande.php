@@ -11,7 +11,7 @@ class Commande extends Model
 
     protected $fillable = [
         'user_id','c_nom','c_prenom','c_email','c_adresse','c_ville','c_pays','c_zipcode',
-        'c_telephone','c_discount','c_discountCode','c_subtotal','c_taxe','c_total','statut','erreur',
+        'c_telephone','c_discount','c_discountCode','c_subtotal','c_taxe','c_total','c_payement','statut','erreur',
     ];
 
     public function user()

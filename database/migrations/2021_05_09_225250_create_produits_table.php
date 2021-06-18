@@ -17,12 +17,15 @@ class CreateProduitsTable extends Migration
             $table->increments('id');
             $table->string('nom')->unique();
             $table->float('prix_ht');
+            $table->float('prix_reseller');
             $table->text('details');
             $table->text('description');
             $table->string('photo_principale')->unique();
             $table->boolean('featured')->default(false);
             $table->text('images')->nullable();
             $table->unsignedInteger('quantite')->default(30);
+            $table->float('rating_cache')->nullable();
+            $table->unsignedInteger('rating_count')->nullable();
             $table->timestamps();
         });
     }

@@ -25,6 +25,14 @@ class Produit extends Model
         return $this->belongsTo('App\Models\Marque');
     }
 
+    public function reviews(){
+        return $this->hasMany('App\Models\Review');
+    }
+
+    public function promotion(){
+        return $this->belongsTo('App\Models\Promotion');
+    }
+
     /**
      * Searchable rules.
      *

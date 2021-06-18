@@ -6,6 +6,8 @@ use App\Mail\CommandeEffectue;
 use App\Models\Commande;
 use App\Models\CommandeProduit;
 use App\Models\Produit;
+use App\Models\User;
+use App\Notifications\NewOrderNotification;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -51,6 +53,32 @@ class CheckoutController extends Controller
             return back()->withErrors('Désolé, un des produits dans votre panier n\'est plus disponible');
         }
 
+        //Add User Informations if not available
+        $user = auth()->user();
+        $input = $request->except('nom', 'email');
+
+        if (! $user->last_name){
+
+            $user->fill([
+                'last_name' => $input['prenom'],
+                'adresse' => $input['adresse'],
+                'ville' => $input['ville'],
+                'zipcode' => $input['zip_code'],
+            ])->save();
+        }
+
+       /* if(!$user->last_name)
+            $user->last_name = $request->prenom;
+
+        if(!$user->adresse)
+            $user->adresse = $request->adresse;
+
+        if(!$user->ville)
+            $user->ville = $request->ville;
+
+        if(!$user->zipcode)
+            $user->zipcode = $request->zipcode;*/
+
 
         //Insert into Commandes table
 
@@ -61,7 +89,6 @@ class CheckoutController extends Controller
             'c_email' => $request->email,
             'c_adresse' => $request->adresse,
             'c_ville' => $request->ville,
-            'c_pays' => $request->pays,
             'c_zipcode' => $request->zip_code,
             'c_telephone' => $request->tel,
             'c_discount' => $this->getNumbers()->get('discount'),
@@ -69,6 +96,7 @@ class CheckoutController extends Controller
             'c_subtotal' => $this->getNumbers()->get('newSubtotal'),
             'c_taxe' => $this->getNumbers()->get('newTax'),
             'c_total' => $this->getNumbers()->get('newTotal'),
+            'c_payement' => $request->payement,
             'erreur' => null,
         ]);
 
@@ -86,6 +114,12 @@ class CheckoutController extends Controller
 
         $this->decreaseQuantities();
         Mail::send(new CommandeEffectue($commande));
+
+        $admin = User::find(1);
+        $superU = User::find(2);
+
+        $admin->notify(new NewOrderNotification($user));
+        $superU->notify(new NewOrderNotification($request));
 
         Cart::instance('default')->destroy();
         session()->forget('coupon');

@@ -214,37 +214,11 @@
             font-weight: bold;
             font-size: 1.25em;
         }
-        .cart .items .tableRow .cartSection input.qty {
-            width: 5em;
-            text-align: center;
-            font-size: 1em;
-            padding: .25em;
-            margin: 1em .5em 0 0;
-        }
         .cart .items .tableRow .cartSection .itemImg {
             width: 8em;
             display: inline;
             padding-right: 1em;
         }
-
-        .special {
-            display: block;
-            font-family: "Montserrat", sans-serif;
-        }
-        .special .specialContent {
-            padding: 1em 1em 0;
-            display: block;
-            margin-top: .5em;
-            border-top: 1px solid #dadada;
-        }
-        .special .specialContent:before {
-            content: "\21b3";
-            font-size: 1.5em;
-            margin-right: 1em;
-            color: #6f6f6f;
-            font-family: helvetica, arial, sans-serif;
-        }
-
         .promoCode {
             border: 2px solid #efefef;
             float: left;

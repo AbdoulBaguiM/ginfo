@@ -4,11 +4,6 @@
     <link rel="stylesheet" href="{{ asset('css/cart.css') }}">
 @endsection
 
-@section('breadcrumb')
-    @include('partials.breadcrumb')
-@endsection
-
-
 @section('content')
 		<!-- SECTION -->
 		<div class="section">
@@ -38,47 +33,33 @@
 							<div class="section-title">
 								<h3 class="title">Vos Informations</h3>
 							</div>
-                            <form action="{{route('passer_commande')}}" method="POST" id="checkout">
+                            <form action="{{route('passer_commande')}}" method="POST" id="demoForm" data-toggle="validator">
                                 @csrf
                                 <div class="form-group">
-                                    <input class="input" type="text" id="nom" name="nom" value="{{auth()->user()->name}}">
+                                    <input class="input" type="text" id="nom" name="nom" value="{{auth()->user()->name}}" required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="input" type="text" id="prenom" name="prenom" placeholder="Prenom">
+                                    <input class="input" type="text" id="prenom" name="prenom" value="{{auth()->user()->last_name}}" placeholder="Prenom" >
                                 </div>
                                 <div class="form-group">
                                     <input class="input" type="email" id="email" name="email" value="{{auth()->user()->email}}" readonly>
                                 </div>
                                 <div class="form-group">
-                                    <input class="input" type="text" id="adresse" name="adresse" placeholder="Addresse">
+                                    <input class="input" type="text" id="adresse" name="adresse" value="{{auth()->user()->adresse}}" placeholder="Addresse" required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="input" type="text" id="ville" name="ville" placeholder="Ville">
+                                    <input class="input" type="text" id="ville" name="ville" value="{{auth()->user()->ville}}" placeholder="Ville" required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="input" type="text" id="pays" name="pays" placeholder="Pays" value="Maroc">
+                                    <input class="input" type="text" id="pays" name="pays" placeholder="Pays" value="Maroc" readonly>
                                 </div>
                                 <div class="form-group">
-                                    <input class="input" type="text" id="zip_code" name="zip_code" placeholder="Code Postal">
+                                    <input class="input" type="text" id="zip_code" name="zip_code" value="{{auth()->user()->zipcode}}" placeholder="Code Postal" required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="input" type="tel" id="tel" name="tel" placeholder="Telephone" value="{{auth()->user()->telephone}}">
+                                    <input class="input" type="tel" id="tel" name="tel" placeholder="Telephone" value="{{auth()->user()->telephone}}" required>
                                 </div>
                             </form>
-
-							{{--<div class="form-group">
-								<div class="input-checkbox">
-									<input type="checkbox" id="create-account">
-									<label for="create-account">
-										<span></span>
-										Create Account?
-									</label>
-									<div class="caption">
-										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
-										<input class="input" type="password" name="password" placeholder="Enter Your Password">
-									</div>
-								</div>
-							</div>--}}
 						</div>
 						<!-- /Billing Details -->
 
@@ -138,46 +119,38 @@
 
 						<div class="payment-method">
 							<div class="input-radio">
-								<input type="radio" name="payment" id="payment-1">
+								<input type="radio" name="payement" id="payment-1" value=0 form="demoForm" required>
 								<label for="payment-1">
 									<span></span>
-									Direct Bank Transfer
+									Paiement cash à la livraison
 								</label>
 								<div class="caption">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+									<p>Payez en espèces dès que vous recevez votre commande</p>
 								</div>
 							</div>
+
 							<div class="input-radio">
-								<input type="radio" name="payment" id="payment-2">
+								<input type="radio" name="payement" id="payment-2" value=1 form="demoForm" required>
 								<label for="payment-2">
 									<span></span>
-									Cheque Payment
+                                    Paiement par carte bancaire
 								</label>
 								<div class="caption">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-								</div>
-							</div>
-							<div class="input-radio">
-								<input type="radio" name="payment" id="payment-3">
-								<label for="payment-3">
-									<span></span>
-									Paypal System
-								</label>
-								<div class="caption">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+									<p>C'est une option prépayée sécurisée et rapide.
+                                        Pour garantir le bon déroulement de votre paiement, prière de vous assurer que vous disposez des fonds nécessaires sur votre carte.</p>
 								</div>
 							</div>
 						</div>
 
 						<div class="input-checkbox">
-							<input type="checkbox" id="terms">
+							<input type="checkbox" id="terms" name="terms" form="demoForm" required>
 							<label for="terms">
 								<span></span>
 								J'ai lu et j'accepte les <a href="#">termes et conditions</a>
 							</label>
 						</div>
 
-                        <button class="primary-btn order-submit" type="submit" form="checkout" style="width: 100%">Passer la commande</button>
+                        <button class="primary-btn order-submit" type="submit" form="demoForm" style="width: 100%">Passer la commande</button>
 
                         @if(!session()->has('coupon'))
                             <hr>
@@ -191,7 +164,7 @@
                                         @csrf
                                         <div class="form-group">
                                             <input class="input" type="text" name="coupon_code" id="coupon_code" placeholder="Entrer le Code" style="width: 88%"/>
-                                            <button type="submit" class="btn" style="height: 40px"></button>
+                                            <button type="submit" class="btn-local continue" style="height: 40px"></button>
                                         </div>
                                     </form>
                             </div>
@@ -205,3 +178,4 @@
 		</div>
 		<!-- /SECTION -->
 @endsection
+

@@ -88,14 +88,6 @@
                                     {{strtoupper($commande->c_telephone)}}
                                 </td>
                             </tr>
-                            {{--<tr>
-                                <td style="width: 55%; font-size: 14px; line-height: 18px; color: #666666; padding-bottom: 10px;">
-
-                                </td>
-                                <td style="width: 45%; font-size: 14px; line-height: 18px; color: #666666; padding-bottom: 10px;">
-                                    Michigan, 48335
-                                </td>
-                            </tr>--}}
                             </tbody>
                         </table>
                     </td>
@@ -125,7 +117,7 @@
                                     <tr>
                                         <td style="font-size: 14px; line-height: 18px; color: #757575;"></td>
                                         <td style="font-size: 14px; line-height: 18px; color: #757575; text-align: right;">
-                                            {{$produit->pivot->quantite}}x {{$produit->prix_ht}} DHS
+                                            {{$produit->pivot->quantite}}x {{number_format($produit->prix_ht,2)}} DHS
                                         </td>
                                     </tr>
                                     {{--<tr>
@@ -152,7 +144,7 @@
                                     Sous-Total:
                                 </td>
                                 <td style="font-size: 14px; line-height: 18px; color: #666666; width: 130px; text-align: right;">
-                                    {{$commande->c_subtotal}} Dhs
+                                    {{number_format($commande->c_subtotal,2)}} Dhs
                                 </td>
                             </tr>
                             <tr>
@@ -168,7 +160,7 @@
                                     Total
                                 </td>
                                 <td style="font-size: 14px; font-weight: bold; line-height: 18px; color: #666666; padding-top: 10px; text-align: right;">
-                                    {{$commande->c_total}} DHS
+                                    {{number_format($commande->c_total,2)}} DHS
                                 </td>
                             </tr>
                             </tbody>

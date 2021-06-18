@@ -43,4 +43,20 @@ class WishlistController extends Controller
         Cart::instance('wishlist')->remove($id);
         return back()->with('success_message','Le produit a été déplacé vers votre Panier');
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function empty()
+    {
+        if(Cart::instance('wishlist')->content()->count() > 0){
+            foreach(Cart::instance('wishlist')->content() as $content)
+                Cart::instance('wishlist')->remove($content->rowId);
+
+            return back()->with('success_message','Votre liste d\'envies a été vidée');
+        }
+        return back()->with('success_message','Votre liste d\'envies est vide');
+    }
 }

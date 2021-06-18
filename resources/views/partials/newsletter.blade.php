@@ -6,10 +6,11 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="newsletter">
-                    <p>Sign Up for the <strong>NEWSLETTER</strong></p>
-                    <form>
-                        <input class="input" type="email" placeholder="Enter Your Email">
-                        <button class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
+                    <p>Inscrivez-vous à notre <strong>NEWSLETTER</strong></p>
+                    <form action="{{route('inscription_newsletter')}}" method="POST">
+                        @csrf
+                        <input class="input" name="email" type="email" value="{{auth()->user() ? auth()->user()->email : '' }}" placeholder="Entrer votre adresse mail">
+                        <button class="newsletter-btn" type="submit"><i class="fa fa-envelope"></i> Inscription</button>
                     </form>
                     <ul class="newsletter-follow">
                         <li>

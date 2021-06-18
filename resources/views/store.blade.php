@@ -1,7 +1,57 @@
 @extends('layout')
 
+@section('title','| Boutique')
+
 @section('breadcrumb')
-    @include('partials.breadcrumb')
+    @include('partials.breadcrumb',['page' => 'Boutique', 'lien' => 'voir_produits'])
+@endsection
+
+@section('extra-css')
+    <style>
+        .item.list-group-item
+        {
+            float: none;
+            width: 100%;
+            background-color: #fff;
+            margin-bottom: 30px;
+            -ms-flex: 0 0 100%;
+            flex: 0 0 100%;
+            max-width: 100%;
+            padding: 0 1rem;
+            border: 0;
+        }
+        .item.list-group-item .img-event {
+            float: left;
+            width: 30%;
+        }
+
+        .item.list-group-item .list-group-image
+        {
+            margin-right: 10px;
+        }
+        .item.list-group-item .thumbnail
+        {
+            margin-bottom: 0px;
+            display: inline-block;
+        }
+        .item.list-group-item .caption
+        {
+            float: left;
+            width: 70%;
+            margin: 0;
+        }
+
+        .item.list-group-item:before, .item.list-group-item:after
+        {
+            display: table;
+            content: " ";
+        }
+
+        .item.list-group-item:after
+        {
+            clear: both;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -36,21 +86,27 @@
 
 						<!-- aside Widget -->
 						<div class="aside">
-							<h3 class="aside-title">Prix</h3>
-							<div class="price-filter">
-								<div id="price-slider"></div>
-								<div class="input-number price-min">
-									<input id="price-min" type="number">
-									<span class="qty-up">+</span>
-									<span class="qty-down">-</span>
-								</div>
-								<span>-</span>
-								<div class="input-number price-max">
-									<input id="price-max" type="number">
-									<span class="qty-up">+</span>
-									<span class="qty-down">-</span>
-								</div>
-							</div>
+                            <h3 class="aside-title">Prix (DHS)
+                                <button type="submit" class="unstyled-link" form="sortByPrice">OK</button>
+                            </h3>
+
+                            <form action="{{route('trier_par_prix')}}" method="POST" id="sortByPrice">
+                                @csrf
+                                <div class="price-filter">
+                                    <div id="price-slider"></div>
+                                    <div class="input-number price-min">
+                                        <input id="price-min" name="price_min" type="number" >
+                                        <span class="qty-up">+</span>
+                                        <span class="qty-down">-</span>
+                                    </div>
+                                    <span>-</span>
+                                    <div class="input-number price-max">
+                                        <input id="price-max" name="price_max" type="number">
+                                        <span class="qty-up">+</span>
+                                        <span class="qty-down">-</span>
+                                    </div>
+                                </div>
+                            </form>
 						</div>
 						<!-- /aside Widget -->
 
@@ -78,38 +134,21 @@
 						<!-- aside Widget -->
 						<div class="aside">
 							<h3 class="aside-title">Top ventes</h3>
-							<div class="product-widget">
-								<div class="product-img">
-									<img src="./img/product01.png" alt="">
-								</div>
-								<div class="product-body">
-									<p class="product-category">Category</p>
-									<h3 class="product-name"><a href="#">product name goes here</a></h3>
-									<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								</div>
-							</div>
-
-							<div class="product-widget">
-								<div class="product-img">
-									<img src="./img/product02.png" alt="">
-								</div>
-								<div class="product-body">
-									<p class="product-category">Category</p>
-									<h3 class="product-name"><a href="#">product name goes here</a></h3>
-									<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								</div>
-							</div>
-
-							<div class="product-widget">
-								<div class="product-img">
-									<img src="./img/product03.png" alt="">
-								</div>
-								<div class="product-body">
-									<p class="product-category">Category</p>
-									<h3 class="product-name"><a href="#">product name goes here</a></h3>
-									<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								</div>
-							</div>
+                            @foreach($topventes->take(3) as $produit)
+                            <!-- product widget -->
+                            <div class="product-widget">
+                                <a href="{{route('voir_produit',$produit->id)}}">
+                                    <div class="product-img">
+                                        <img src="{{asset('storage/'.$produit->photo_principale)}}" alt="">
+                                    </div>
+                                    <div class="product-body">
+                                        <h3 class="product-name"><a href="{{route('voir_produit',$produit->id)}}">{{$produit->nom}}</a></h3>
+                                        <h4 class="product-price">{{getProductPrice($produit)}} Dhs </h4>
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- /product widget -->
+                            @endforeach
 						</div>
 						<!-- /aside Widget -->
 					</div>
@@ -137,8 +176,12 @@
 								</label>
 							</div>
 							<ul class="store-grid">
-								<li class="active"><i class="fa fa-th"></i></li>
-								<li><a href="#"><i class="fa fa-th-list"></i></a></li>
+								<li class="active">
+                                    <button class="unstyled-button" id="grid"><i class="fa fa-th"></i></button>
+                                </li>
+								<li>
+                                    <button class="unstyled-button" id="list"><i class="fa fa-th-list"></i></button>
+                                </li>
 							</ul>
 						</div>
 						<!-- /store top filter -->
@@ -160,16 +203,18 @@
                             @endif
                         </div>
 						<!-- store products -->
-						<div class="row">
+						<div class="row" id="products">
 							<!-- products-->
                             @forelse($produits as $produit)
-                                <div class="col-md-4 col-xs-6">
+                                <div class="item col-md-4 col-xs-6">
                                     <a href="{{route('voir_produit',$produit->id)}}">
                                         <div class="product">
-                                            <div class="product-img">
-                                                <img src="{{asset('storage/'.$produit->photo_principale)}}" alt="">
+                                            <div class="product-img img-event">
+                                                <img class="list-group-image" src="{{asset('storage/'.$produit->photo_principale)}}" alt="">
                                                 <div class="product-label">
-                                                    <span class="sale">-30%</span>
+                                                    @if($produit->promotion)
+                                                        <span class="sale">-{{getProductPromotion($produit)}}%</span>
+                                                    @endif
                                                     @if($produit->featured)
                                                         <span class='new'>NEW</span>
                                                     @endif
@@ -180,42 +225,43 @@
                                                     <p class="product-category">{{$produit->categories()->first()->nom}}</p>
                                                 @endif
                                                 <h3 class="product-name"><a href="{{route('voir_produit',$produit->id)}}">{{$produit->nom}}</a></h3>
-                                                <h4 class="product-price">{{number_format($produit->prix_ht,2)}}Dhs<del class="product-old-price">990.00Dhs</del></h4>
-                                                <div class="product-rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
+                                                    <h4 class="product-price">{{getProductPrice($produit)}} Dhs
+                                                        @if(getProductDelPrice($produit))
+                                                            <del class="product-old-price"> {{getProductDelPrice($produit)}} Dhs</del>
+                                                        @endif
+                                                    </h4>
+                                                    <div class="product-rating">
+                                                    @foreach(range(1,5) as $star)
+                                                        <i class="fa fa-star{{$produit->rating_cache >= $star ? '' : '-o empty'}}"></i>
+                                                    @endforeach
                                                 </div>
                                                 <div class="product-btns">
-                                                    <button class="add-to-wishlist">
                                                         <form action="{{ route('ajouter_a_la_wishlist', $produit) }}" method="POST">
                                                             @csrf
                                                             <input type="hidden" name="id" value="{{$produit->id}}">
                                                             <input type="hidden" name="nom" value="{{$produit->nom}}">
                                                             <input type="hidden" name="prix_ht" value="{{$produit->prix_ht}}">
-                                                            <button type="submit"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                            <button class="unstyled-button" type="submit"><i class="fa fa-heart-o"></i><span class="tooltipp">Ajouter à la wishlist</span></button>
                                                         </form>
-                                                    </button>
-                                                    <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                                                    <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+
                                                 </div>
                                             </div>
-                                            <div class="add-to-cart">
-                                                <form action="{{ route('ajouter_au_panier', $produit) }}" method="POST">
-                                                    @csrf
-                                                    <input type="hidden" name="id" value="{{$produit->id}}">
-                                                    <input type="hidden" name="nom" value="{{$produit->nom}}">
-                                                    <input type="hidden" name="prix_ht" value="{{$produit->prix_ht}}">
-                                                    <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>J'achète</button>
-                                                </form>
-                                            </div>
+                                            @if($produit->quantite > 0 )
+                                                <div class="add-to-cart">
+                                                    <form action="{{ route('ajouter_au_panier', $produit) }}" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="id" value="{{$produit->id}}">
+                                                        <input type="hidden" name="nom" value="{{$produit->nom}}">
+                                                        <input type="hidden" name="prix_ht" value="{{$produit->prix_ht}}">
+                                                        <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>J'achète</button>
+                                                    </form>
+                                                </div>
+                                            @endif
                                         </div>
                                     </a>
                                 </div>
                             @empty
-                                <div >Aucun produit trouvé</div>
+                                <div ><p>Aucun produit trouvé</p></div>
                             @endforelse
 							<!-- /products-->
 						</div>
@@ -236,4 +282,13 @@
 			<!-- /container -->
 		</div>
 		<!-- /SECTION -->
+@endsection
+
+@section('extra-js')
+    <script>
+        $(document).ready(function() {
+            $('#list').click(function(event){event.preventDefault();$('#products .item').addClass('list-group-item');});
+            $('#grid').click(function(event){event.preventDefault();$('#products .item').removeClass('list-group-item');$('#products .item').addClass('grid-group-item');});
+        });
+    </script>
 @endsection
