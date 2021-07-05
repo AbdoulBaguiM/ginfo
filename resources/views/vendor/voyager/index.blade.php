@@ -3,17 +3,14 @@
 @section('content')
     <div class="page-content">
         @include('voyager::alerts')
-        @include('voyager::dimmers')
+        @include('vendor.voyager.dashboard.diagram')
+{{--        @include('voyager::dimmers')--}}
+
         <div class="analytics-container">
             <?php $google_analytics_client_id = Voyager::setting("admin.google_analytics_client_id"); ?>
             @if (isset($google_analytics_client_id) && !empty($google_analytics_client_id))
                 {{-- Google Analytics Embed --}}
                 <div id="embed-api-auth-container"></div>
-            @else
-                <p style="border-radius:4px; padding:20px; background:#fff; margin:0; color:#999; text-align:center;">
-                    {!! __('voyager::analytics.no_client_id') !!}
-                    <a href="https://console.developers.google.com" target="_blank">https://console.developers.google.com</a>
-                </p>
             @endif
             <div class="Dashboard Dashboard--full" id="analytics-dashboard">
                 <header class="Dashboard-header">
@@ -29,8 +26,8 @@
                         </li>
                     </ul>
                     <div id="view-selector-container"></div>
-                </header>
 
+                </header>
                 <ul class="FlexGrid FlexGrid--halves">
                     <li class="FlexGrid-item">
                         <div class="Chartjs">

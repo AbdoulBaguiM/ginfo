@@ -91,36 +91,35 @@
 
                             </div>
 
-                            <div class="form-group" style="display: inline-flex">
-                                <div style="float: left">
+                            <div class="form-group">
+                                <div class="col-md-6">
                                     <label for="ville">Ville</label>
-                                    <input type="text" class="form-control" name="password" id="password" value="{{old('name',$user->ville)}}" placeholder="Ville" style="width: 90%">
+                                    <select class="form-control" id="ville" name="ville">
+                                        @foreach(preg_split("/[\s,]+/", setting('site.cities')) as $item)
+                                            <option {{$item == old('name',$user->ville) ? 'selected' : ''}}>{{$item}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
 
-                                <div style="float: right">
+                                <div class="col-md-6">
                                     <label for="zipcode">Code Postal</label>
-                                    <input type="text" class="form-control" name="password" id="password" value="{{old('name',$user->zipcode)}}" placeholder="Code Postal"  style="width: 90%">
+                                    <input type="text" class="form-control" name="zipcode" id="zipcode" value="{{old('name',$user->zipcode)}}" placeholder="Code Postal">
                                 </div>
                             </div>
 
-
                             <div class="form-group">
-
-                                    <label for="password">Mot de Passe</label>
-                                    <input type="password" class="form-control" name="password" id="password" placeholder="Mot de Passe">
-
+                                <label for="password">Mot de Passe</label>
+                                <input type="password" class="form-control" name="password" id="password" placeholder="Mot de Passe">
                             </div>
 
                             <div class="form-group">
-
-                                    <label for="password2">Verifier le Mot de Passe</label>
-                                    <input type="password" class="form-control" name="password_confirmation" id="password2" placeholder="Mot de Passe">
-
+                                <label for="password2">Verifier le Mot de Passe</label>
+                                <input type="password" class="form-control" name="password_confirmation" id="password2" placeholder="Mot de Passe">
                             </div>
 
                             <div class="form-group">
-                                    <p></p>
-                                    <p><i class="fa fa-question"></i> Laissez le mot de passe vide pour qu'il soit inchangé</p>
+                                <p></p>
+                                <p><i class="fa fa-question"></i> Laissez le mot de passe vide pour qu'il soit inchangé</p>
                             </div>
 
                             <div class="form-group" align="center">

@@ -40,10 +40,10 @@
                                 <div class="infoWrap">
                                     <div class="tableRow">
                                         <div class="cartSection">
-                                            <a href="{{route('voir_produit',$item->model->id)}}">
+                                            <a href="{{route('voir_produit',$item->id)}}">
                                                 <img src="{{asset('storage/'.$item->model->photo_principale)}}" alt="" class="itemImg" />
 
-                                                <h3>{{$item->model->nom}}</h3>
+                                                <h3>{{$item->name}}</h3>
                                             </a>
                                             <p>{{$item->model->details}}</p>
 <p>
@@ -52,13 +52,13 @@
                                                     <option {{ $item->qty == $i ? 'selected' : '' }}> {{ $i }} </option>
                                                 @endfor
                                             </select>
-                                            x {{number_format($item->model->prix_ht,2)}} Dhs
+                                            x {{number_format($item->price,2)}} Dhs
 </p>
                                             <p class="stockStatus"> {!! getStockLevel($item->model->quantite) !!}</p>
                                         </div>
                                         <div class="cell2">
                                             <div class="prodTotal cartSection">
-                                                <p>{{number_format($item->model->prix_ht * $item->qty,2)}}DHS</p>
+                                                <p>{{number_format(floatval(str_replace(',', '', $item->price)) * $item->qty,2)}}DHS</p>
                                                 <div class="cartSection removeWrap">
                                                     <form action="{{route('supprimer_du_panier',$item->rowId)}}" method="POST">
                                                         @csrf
@@ -81,11 +81,9 @@
             <div class="subtotal cf">
                 <ul>
                     <li class="totalRow"><span class="label">Sous-Total</span><span class="value">{{Cart::subtotal()}} Dhs</span></li>
-
-                    <li class="totalRow"><span class="label">Frais de Livraison</span><span class="value">5.00 Dhs</span></li>
-
-                    <li class="totalRow"><span class="label">Taxe</span><span class="value">{{Cart::tax()}} Dhs</span></li>
-                    <li class="totalRow final"><span class="label">Total</span><span class="value">{{Cart::total()}} Dhs</span></li>
+                    <li class="totalRow"><span class="label">Frais de Livraison</span><span class="value">{{getLivraisonPrice()}} Dhs</span></li>
+                    <li class="totalRow"><span class="label">Taxe</span><span class="value">{{setting('site.tax')}} %</span></li>
+                    <li class="totalRow final"><span class="label">Total</span><span class="value">{{floatval(str_replace(',', '', Cart::total())) + getLivraisonPrice()}} Dhs</span></li>
                     <li class="totalRow"><a href="{{route('checkout_commande')}}" class="btn-local continue">Commander</a></li>
                 </ul>
             </div>

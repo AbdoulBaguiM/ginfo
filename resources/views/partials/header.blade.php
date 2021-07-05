@@ -3,11 +3,8 @@
     <!-- TOP HEADER -->
     <div id="top-header">
         <div class="container">
-            <ul class="header-links pull-left">
-                <li><a href="#"><i class="fa fa-phone"></i> {{setting('site.phone_number')}}</a></li>
-                <li><a href="#"><i class="fa fa-envelope-o"></i> {{setting('site.mail_address')}}</a></li>
-                <li><a href="#"><i class="fa fa-map-marker"></i> {{setting('site.localisation')}}</a></li>
-            </ul>
+
+            {{menu('Informations','partials.menu.informations_header')}}
 
             <ul class="header-links pull-right">
                 @guest
@@ -19,8 +16,9 @@
 
                         <ul class="dropdown-menu dropdown-menu-animated">
                             <br>
-                            <li class="profile-img" style="display: inline-flex">
-                                <img src="{{ asset('storage/'.auth()->user()->avatar) }}" style="width: 50px;border-radius: 10px">
+                            <li class="profile-img" style="padding: 10px">
+                                <img src="{{ asset('storage/'.auth()->user()->avatar) }}" align="center" style="width: 50px;height: 50px;border-radius: 10px;">
+                                <div style="color: white"> S</div>
                                 <div class="profile-body">
                                     <h5>{{ Auth::user()->name }}</h5>
                                     <h6>{{ Auth::user()->email }}</h6>
@@ -36,7 +34,7 @@
                             <li>
                                 <form action="{{ route('logout') }}" method="POST">
                                     {{ csrf_field() }}
-                                    <button type="submit" class="secondary-btn"  style="margin-left: 18px;">
+                                    <button type="submit" class="secondary-btn"  style="position: center">
                                         Deconnexion
                                     </button>
                                 </form>
@@ -92,14 +90,14 @@
                                 <div class="cart-list">
                                     @foreach(Cart::instance('wishlist')->content() as $item)
                                         <div class="product-widget">
-                                            <a href="{{route('voir_produit',$item->model->id)}}">
+                                            <a href="{{route('voir_produit',$item->id)}}">
                                                 <div class="product-img">
                                                     <img src="{{asset('storage/'.$item->model->photo_principale)}}" alt="">
                                                 </div>
                                             </a>
                                             <div class="product-body">
-                                                <h3 class="product-name"><a href="{{route('voir_produit',$item->model->id)}}">{{$item->model->nom}}</a></h3>
-                                                <h4 class="product-price">{{number_format($item->model->prix_ht,2)}}Dhs</h4>
+                                                <h3 class="product-name"><a href="{{route('voir_produit',$item->id)}}">{{$item->name}}</a></h3>
+                                                <h4 class="product-price">{{number_format($item->price,2)}}Dhs</h4>
                                                 <span class="qty">
                                                     @if($item->model->quantite > 0 )
                                                        <form action="{{route('envoyer_au_panier',$item->rowId)}}" method="POST">
@@ -125,7 +123,7 @@
                                     @if(Cart::instance('wishlist')->count() > 0)
                                         <small>{{Cart::instance('wishlist')->count()}} Produit(s)</small>
                                     @else
-                                        <small>Votre Wishlist est vide</small>
+                                        <small>Votre Liste d'envies est vide</small>
                                     @endif
 
                                 </div>
@@ -150,14 +148,14 @@
                                 <div class="cart-list">
                                     @foreach(Cart::content() as $item)
                                         <div class="product-widget">
-                                            <a href="{{route('voir_produit',$item->model->id)}}">
+                                            <a href="{{route('voir_produit',$item->id)}}">
                                                 <div class="product-img">
                                                     <img src="{{asset('storage/'.$item->model->photo_principale)}}" alt="">
                                                 </div>
                                             </a>
                                             <div class="product-body">
-                                                <h3 class="product-name"><a href="{{route('voir_produit',$item->model->id)}}">{{$item->model->nom}}</a></h3>
-                                                <h4 class="product-price"><span class="qty">{{$item->qty}}x</span>{{number_format($item->model->prix_ht,2)}}Dhs</h4>
+                                                <h3 class="product-name"><a href="{{route('voir_produit',$item->id)}}">{{$item->name}}</a></h3>
+                                                <h4 class="product-price"><span class="qty">{{$item->qty}}x</span>{{number_format($item->price,2)}}Dhs</h4>
                                             </div>
                                             <form action="{{route('supprimer_du_panier',$item->rowId)}}" method="POST">
                                                 {{csrf_field()}}

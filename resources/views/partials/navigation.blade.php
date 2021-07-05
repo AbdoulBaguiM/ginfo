@@ -5,15 +5,9 @@
         <!-- responsive-nav -->
         <div id="responsive-nav">
             <!-- NAV -->
-            <ul class="main-nav nav navbar-nav">
-                <li class="active"><a href="/">Acceuil</a></li>
-                <li><a href="{{route('voir_promotions')}}">Promotions</a></li>
-                <li><a href="#">Categories</a></li>
-                <li><a href="#">Laptops</a></li>
-                <li><a href="#">Smartphones</a></li>
-                <li><a href="#">Cameras</a></li>
-                <li><a href="#">Accessories</a></li>
-            </ul>
+
+            {{menu('navigation','partials.menu.main')}}
+
             <!-- /NAV -->
         </div>
         <!-- /responsive-nav -->

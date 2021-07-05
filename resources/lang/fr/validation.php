@@ -126,6 +126,10 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'g-recaptcha-response' => [
+            'required' => 'Vérifiez que vous n\'êtes pas un robot.',
+            'captcha' => 'Erreur! réessayez plus-tard ou contactez l\'administrateur du site.',
+        ],
     ],
     'attributes'           => [
         'address'               => 'adresse',

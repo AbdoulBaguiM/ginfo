@@ -32,6 +32,7 @@
                 </ol>
             @show
         </div>
+
         <ul class="nav navbar-nav @if (__('voyager::generic.is_rtl') == 'true') navbar-left @else navbar-right @endif" style="color: black">
             <li class="nav-item dropdown">
                 <a class="nav-link text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -41,7 +42,8 @@
                     @endif
                     <span class="caret"></span>
                 </a>
-                <ul class="dropdown-menu">
+
+                <ul class="dropdown-menu" style="height: 500px;">
                     <li class="head text-light bg-dark">
                         <div class="row">
                             <div class="col-lg-12 col-sm-12 col-12">
@@ -56,7 +58,7 @@
                             </div>
                         </div>
                     </li>
-                    @foreach( getNotification()->take(4) as $notification )
+                    @foreach( getNotification() as $notification )
                         <li class="notification-box">
                             <div class="row">
                                 <div class="col-lg-3 col-sm-3 col-3 text-center">

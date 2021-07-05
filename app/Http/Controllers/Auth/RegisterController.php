@@ -57,6 +57,7 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'telephone' => ['required', 'string', 'max:10' ,'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'g-recaptcha-response' => 'required|captcha'
         ]);
     }
 
@@ -76,10 +77,14 @@ class RegisterController extends Controller
         ]);
 
         $admin = User::find(1);
-        $superU = User::find(2);
+        $superU = User::where('role_id',3)->get();
+
+        foreach ($superU as $super){
+            $super->notify(new NewUserNotification($user));
+        }
 
         $admin->notify(new NewUserNotification($user));
-        $superU->notify(new NewUserNotification($user));
+
 
         return $user;
     }

@@ -120,12 +120,6 @@
                                             {{$produit->pivot->quantite}}x {{number_format($produit->prix_ht,2)}} DHS
                                         </td>
                                     </tr>
-                                    {{--<tr>
-                                        <td style="font-size: 14px; line-height: 18px; color: #757575; padding-bottom: 10px;"></td>
-                                        <td style="font-size: 14px; line-height: 18px; color: #757575; text-align: right; padding-bottom: 10px;">
-                                            <b style="color: #666666;">1,234.50 DHS</b> Total
-                                        </td>
-                                    </tr>--}}
                                 </tbody>
                             </table>
                         </td>
@@ -152,7 +146,7 @@
                                     Frais de Livraison
                                 </td>
                                 <td style="font-size: 14px; line-height: 18px; color: #666666; padding-bottom: 10px; border-bottom: 1px solid #eeeeee; text-align: right;">
-{{--                                    Frais de livraison--}}
+                                    {{getLivraisonPrice()}} Dhs
                                 </td>
                             </tr>
                             <tr>
@@ -176,38 +170,45 @@
                             <tbody>
                             <tr>
                                 <td colspan="2" style="font-size: 16px; font-weight: bold; color: #666666; padding-bottom: 5px;">
-                                    Methode de Payement
+                                    Methode de Paiement
                                 </td>
                             </tr>
-                            <tr>
-                                <td style="width: 55%; font-size: 14px; line-height: 18px; color: #666666;">
-                                    Bank Name:
-                                </td>
-                                <td style="width: 45%; font-size: 14px; line-height: 18px; color: #666666;">
-                                    Account Name:
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 55%; font-size: 14px; line-height: 18px; color: #666666;">
-                                    Bank Address:
-                                </td>
-                                <td style="width: 45%; font-size: 14px; line-height: 18px; color: #666666;">
-                                    Account Number:
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 55%; font-size: 14px; line-height: 18px; color: #666666; padding-bottom: 10px;">
-                                    Bank Code:
-                                </td>
-                                <td style="width: 45%; font-size: 14px; line-height: 18px; color: #666666; padding-bottom: 10px;">
-                                    SWIFT Code:
-                                </td>
-                            </tr>
-                            <tr>
+                            @if($commande->c_payement == 1)
+                                <tr>
+                                    <td style="width: 55%; font-size: 14px; line-height: 18px; color: #666666;">
+                                        Type:
+                                    </td>
+                                    <td style="width: 45%; font-size: 14px; line-height: 18px; color: #666666;">
+                                        Paiement en ligne
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 55%; font-size: 14px; line-height: 18px; color: #666666;">
+                                        Numéro de carte:
+                                    </td>
+                                    <td style="width: 45%; font-size: 14px; line-height: 18px; color: #666666;">
+                                        XXXX-XXXX-XXXX-{{$cardLastDigit}}
+                                    </td>
+                                </tr>
                                 <td colspan="2" style="width: 100%; text-align: center; font-style: italic; font-size: 13px; font-weight: 600; color: #666666; padding: 15px 0; border-top: 1px solid #eeeeee;">
-                                    <b style="font-size: 14px;">Note:</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                                    Un reçu de votre commande une fois vérifiée vous sera envoyé dans votre boîte mail
                                 </td>
-                            </tr>
+                            @else
+                                <tr>
+                                    <td style="width: 55%; font-size: 14px; line-height: 18px; color: #666666;">
+                                        Type:
+                                    </td>
+                                    <td style="width: 45%; font-size: 14px; line-height: 18px; color: #666666;">
+                                        Paiement cash à la Livraison
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="width: 100%; text-align: center; font-style: italic; font-size: 13px; font-weight: 600; color: #666666; padding: 15px 0; border-top: 1px solid #eeeeee;">
+                                        <b style="font-size: 14px;">Note:</b> Afin de facilter la transaction, veuillez-vous munir de la somme exacte.
+                                    </td>
+                                </tr>
+                            @endif
+
                             </tbody>
                         </table>
                     </td>

@@ -7,6 +7,7 @@ use App\Models\Marque;
 use App\Models\Produit;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use function React\Promise\all;
 
@@ -148,7 +149,11 @@ class ShopController extends Controller
 
     public function promotion()
     {
-        $produits = Produit::whereNotNull('promotion_id')->paginate($this->pagination);
+        $produits = Produit::whereNotNull('promotion_id')
+            ->whereHas('promotion', function($query) {
+                $query->where('online', true);
+            })
+            ->paginate($this->pagination);
 
         return view('search.search')->with('produits',$produits);
     }

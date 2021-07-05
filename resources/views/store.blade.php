@@ -21,8 +21,9 @@
             border: 0;
         }
         .item.list-group-item .img-event {
+            position: absolute;
             float: left;
-            width: 30%;
+            width: 20%;
         }
 
         .item.list-group-item .list-group-image
@@ -31,6 +32,7 @@
         }
         .item.list-group-item .thumbnail
         {
+            position: absolute;
             margin-bottom: 0px;
             display: inline-block;
         }
@@ -157,7 +159,7 @@
 					<!-- STORE -->
 					<div id="store" class="col-md-9">
 						<!-- store top filter -->
-						<div class="store-filter clearfix">
+{{--						<div class="store-filter clearfix">
 							<div class="store-sort">
 								<label>
 									Sort By:
@@ -167,13 +169,13 @@
 									</select>
 								</label>
 
-								<label>
+								--}}{{--<label>
 									Show:
 									<select class="input-select">
 										<option value="0">20</option>
 										<option value="1">50</option>
 									</select>
-								</label>
+								</label>--}}{{--
 							</div>
 							<ul class="store-grid">
 								<li class="active">
@@ -183,7 +185,7 @@
                                     <button class="unstyled-button" id="list"><i class="fa fa-th-list"></i></button>
                                 </li>
 							</ul>
-						</div>
+						</div>--}}
 						<!-- /store top filter -->
                         <div class="row">
                             @if (session()->has('success_message'))
@@ -206,11 +208,11 @@
 						<div class="row" id="products">
 							<!-- products-->
                             @forelse($produits as $produit)
-                                <div class="item col-md-4 col-xs-6">
+                                <div class="item col-md-4 col-xs-6 ">
                                     <a href="{{route('voir_produit',$produit->id)}}">
-                                        <div class="product">
+                                        <div class="product" style="position: relative">
                                             <div class="product-img img-event">
-                                                <img class="list-group-image" src="{{asset('storage/'.$produit->photo_principale)}}" alt="">
+                                                <img class="list-group-image " src="{{asset('storage/'.$produit->photo_principale)}}" alt="">
                                                 <div class="product-label">
                                                     @if($produit->promotion)
                                                         <span class="sale">-{{getProductPromotion($produit)}}%</span>
@@ -240,7 +242,7 @@
                                                             @csrf
                                                             <input type="hidden" name="id" value="{{$produit->id}}">
                                                             <input type="hidden" name="nom" value="{{$produit->nom}}">
-                                                            <input type="hidden" name="prix_ht" value="{{$produit->prix_ht}}">
+                                                            <input type="hidden" name="prix_ht" value="{{floatval(str_replace(',', '', getProductPrice($produit)))}}">
                                                             <button class="unstyled-button" type="submit"><i class="fa fa-heart-o"></i><span class="tooltipp">Ajouter à la wishlist</span></button>
                                                         </form>
 
@@ -252,7 +254,7 @@
                                                         @csrf
                                                         <input type="hidden" name="id" value="{{$produit->id}}">
                                                         <input type="hidden" name="nom" value="{{$produit->nom}}">
-                                                        <input type="hidden" name="prix_ht" value="{{$produit->prix_ht}}">
+                                                        <input type="hidden" name="prix_ht" value="{{floatval(str_replace(',', '', getProductPrice($produit)))}}">
                                                         <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>J'achète</button>
                                                     </form>
                                                 </div>
@@ -269,7 +271,6 @@
 						<!-- store bottom filter -->
 
 						<div class="store-filter clearfix" style="float: right">
-							<span class="store-qty">Showing 20-100 products</span>
                             {{$produits->appends(request()->input())->links("pagination::bootstrap-4")}}
 						</div>
 

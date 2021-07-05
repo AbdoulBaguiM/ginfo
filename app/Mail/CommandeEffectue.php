@@ -13,15 +13,17 @@ class CommandeEffectue extends Mailable
     use Queueable, SerializesModels;
 
     public $commande;
+    public $card;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Commande $commande)
+    public function __construct(Commande $commande,$card)
     {
         $this->commande = $commande;
+        $this->card = $card;
     }
 
     /**
@@ -34,6 +36,7 @@ class CommandeEffectue extends Mailable
         return $this->to($this->commande->c_email,$this->commande->c_nom)
             ->bcc('another@another.com')
             ->subject('Commande effectuée')
-            ->view('emailCommande');
+            ->view('emailCommande')
+            ->with('cardLastDigit',$this->card);
     }
 }

@@ -16,6 +16,7 @@ class CreatePromotionsTable extends Migration
         Schema::create('promotions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('percent_off');
+            $table->boolean('online');
             $table->timestamps();
         });
     }

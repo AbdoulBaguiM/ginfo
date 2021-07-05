@@ -33,10 +33,14 @@ class ContactUsController extends Controller
         ContactUS::create($request->all());
 
         $admin = User::find(1);
-        $superU = User::find(2);
+        $superU = User::where('role_id',3)->get();
+
+        foreach ($superU as $super){
+            $super->notify(new NewMessageNotification($request));
+        }
+
 
         $admin->notify(new NewMessageNotification($request));
-        $superU->notify(new NewMessageNotification($request));
 
         return back()->with('success_message', 'Merci de votre message!');
     }

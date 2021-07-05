@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produit;
+use App\Models\User;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 
@@ -46,9 +47,9 @@ class CartController extends Controller
             return back()->with('success_message','Le produit est déjà dans votre Panier');
         }
 
-        $quantite = $request->quant[$request->id];
-
-        if(!$quantite)
+        if (!empty($request->quant))
+            $quantite = $request->quant[$request->id];
+        else
             $quantite = 1;
 
         Cart::add($request->id, $request->nom, $quantite, $request->prix_ht)

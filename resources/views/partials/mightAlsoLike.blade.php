@@ -44,7 +44,7 @@
                                         @csrf
                                         <input type="hidden" name="id" value="{{$produit->id}}">
                                         <input type="hidden" name="nom" value="{{$produit->nom}}">
-                                        <input type="hidden" name="prix_ht" value="{{$produit->prix_ht}}">
+                                        <input type="hidden" name="prix_ht" value="{{floatval(str_replace(',', '', getProductPrice($produit)))}}">
                                         <button class="unstyled-button" type="submit"><i class="fa fa-heart-o"></i><span class="tooltipp">Ajouter à la wishlist</span></button>
                                     </form>
                                 </div>
@@ -55,7 +55,7 @@
                                         @csrf
                                         <input type="hidden" name="id" value="{{$produit->id}}">
                                         <input type="hidden" name="nom" value="{{$produit->nom}}">
-                                        <input type="hidden" name="prix_ht" value="{{$produit->prix_ht}}">
+                                        <input type="hidden" name="prix_ht" value="{{floatval(str_replace(',', '', getProductPrice($produit)))}}">
                                         <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>J'achète</button>
                                     </form>
                                 </div>

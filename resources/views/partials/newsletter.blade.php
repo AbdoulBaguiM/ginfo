@@ -12,20 +12,7 @@
                         <input class="input" name="email" type="email" value="{{auth()->user() ? auth()->user()->email : '' }}" placeholder="Entrer votre adresse mail">
                         <button class="newsletter-btn" type="submit"><i class="fa fa-envelope"></i> Inscription</button>
                     </form>
-                    <ul class="newsletter-follow">
-                        <li>
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-pinterest"></i></a>
-                        </li>
-                    </ul>
+                    {{menu('social_links','partials.menu.social_links')}}
                 </div>
             </div>
         </div>

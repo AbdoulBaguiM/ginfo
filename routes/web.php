@@ -33,7 +33,8 @@ Route::post('/coupon', 'App\Http\Controllers\CouponsController@store')->name('aj
 Route::delete('/coupon', 'App\Http\Controllers\CouponsController@destroy')->name('supprimer_coupon');
 
 Route::get('/checkout','App\Http\Controllers\CheckoutController@index')->name('checkout_commande')->middleware('auth');
-Route::post('/checkout', 'App\Http\Controllers\CheckoutController@store')->name('passer_commande');
+Route::post('/checkout/online', 'App\Http\Controllers\CheckoutController@pay')->name('passer_commande_en_ligne');
+Route::post('/checkout/offline', 'App\Http\Controllers\CheckoutController@store')->name('passer_commande_hors_ligne');
 
 Route::get('/merci','App\Http\Controllers\ConfirmationController@index')->name('confirmation');
 
@@ -48,7 +49,7 @@ Route::group(['prefix' => 'admin'], function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::middleware('auth')->group(function () {
     Route::get('/mon-compte', 'App\Http\Controllers\UsersController@edit')->name('modifier_mon_profil');
@@ -62,3 +63,11 @@ Route::post('contact-us', ['as'=>'contactus.store','uses'=>'App\Http\Controllers
 
 Route::post('/newsletter','App\Http\Controllers\NewsletterController@store')->name('inscription_newsletter');
 Route::delete('/newsletter', 'App\Http\Controllers\CouponsController@delete')->name('desinscription_newsletter');
+
+Route::get('/terms&conditons', function (){
+    return view('extras.terms&conditions');
+})->name('voir_termes_et_conditions');
+
+Route::get('/aboutUs', function (){
+    return view('extras.aboutUS');
+})->name('qui_sommes_nous');

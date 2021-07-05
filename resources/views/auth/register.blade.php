@@ -61,6 +61,7 @@
             text-align: right;
         }
     </style>
+    {!! NoCaptcha::renderJs() !!}
 @endsection
 
 @section('content')
@@ -96,6 +97,10 @@
 
                     <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="Confirmer le mot de passe" required>
 
+                    <div class="form-group">
+                        {!! NoCaptcha::display() !!}
+                    </div>
+
                     <div class="login-container">
                         <button type="submit" class="auth-button">Créer votre compte</button>
                         <div class="already-have-container">
@@ -105,6 +110,8 @@
                     </div>
 
                 </form>
+
+
             </div>
 
             <div class="auth-right">
@@ -116,7 +123,7 @@
                 &nbsp;
                 <div class="spacer"></div>
                 <p><strong>Programme de fidelité</strong></p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt debitis, amet magnam accusamus nisi distinctio eveniet ullam. Facere, cumque architecto.</p>
+                <p>Nos clients fidèles sont recompensés par des promotions exclusives. Ne perdez plus de temps et inscrivez-vous</p>
             </div>
         </div> <!-- end auth-pages -->
     </div>

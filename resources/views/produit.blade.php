@@ -123,7 +123,7 @@
                                             @csrf
                                             <input type="hidden" name="id" value="{{$produit->id}}">
                                             <input type="hidden" name="nom" value="{{$produit->nom}}">
-                                            <input type="hidden" name="prix_ht" value="{{$produit->prix_ht}}">
+                                            <input type="hidden" name="prix_ht" value="{{floatval(str_replace(',', '', getProductPrice($produit)))}}">
                                             <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Ajouter au Panier</button>
                                         </form>
                                     </button>
@@ -136,7 +136,7 @@
                                         @csrf
                                         <input type="hidden" name="id" value="{{$produit->id}}">
                                         <input type="hidden" name="nom" value="{{$produit->nom}}">
-                                        <input type="hidden" name="prix_ht" value="{{$produit->prix_ht}}">
+                                        <input type="hidden" name="prix_ht" value="{{floatval(str_replace(',', '', getProductPrice($produit)))}}">
                                         <button class="unstyled-button" type="submit" style="font-weight: 500;text-transform: uppercase;"><i class="fa fa-heart-o"></i> Ajouter à la Wishlist</button>
                                     </form>
                                 </li>
@@ -163,13 +163,11 @@
 
                             </ul>
 
-                            <ul class="product-links">
-                                <li>Partager:</li>
-                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                                <li><a href="#"><i class="fa fa-envelope"></i></a></li>
-                            </ul>
+                            {!! Share::page('http://127.0.0.1:8000/boutique/'.$produit->id, null, [], '<ul class="product-links"><li>Partager : </li>', '</ul>')
+                                ->facebook()
+                                ->twitter()
+                                ->whatsapp()
+                                ->linkedin(); !!}
 
                         </div>
                     </div>

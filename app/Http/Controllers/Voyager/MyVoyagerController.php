@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Voyager;
 
+use App\Models\Categorie;
+use App\Models\Commande;
+use App\Models\User;
+use Illuminate\Support\Carbon;
 use TCG\Voyager\Facades\Voyager;
 use Illuminate\Http\Request;
 
@@ -9,7 +13,22 @@ class MyVoyagerController extends \TCG\Voyager\Http\Controllers\VoyagerControlle
 {
     public function index()
     {
-        return view('vendor.voyager.index');
+        // Les catégories avec les produits
+        $categorie_produits = Categorie::with("produits")->get();
+
+        // Les catégories avec les produits et les ventes
+        $categories = Categorie::with('produits', 'commandes')->get();
+
+        //Les ventes par villes
+        $ventes = Commande::all()->groupBy('c_ville');
+
+        // Les utilisateurs par villes
+        $clients = User::all()->groupBy('ville');
+
+        return view('vendor.voyager.index')->with(compact('categories'))
+                                                ->with(compact('categorie_produits'))
+                                                ->with(compact('clients'))
+                                                ->with(compact('ventes'));
     }
 
     /**
@@ -26,6 +45,9 @@ class MyVoyagerController extends \TCG\Voyager\Http\Controllers\VoyagerControlle
                 return $query->where('id', $request->input('id'));
             })
             ->markAsRead();
+
+        if (empty($request->input('id')))
+            auth()->user()->notifications()->delete();
 
         return back();
     }

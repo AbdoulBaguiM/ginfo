@@ -87,14 +87,14 @@
 
                     <input type="hidden" name="token" value="{{ $token }}">
 
-                    <input id="email" type="email" class="form-control" name="email" value="{{ $email or old('email') }}" placeholder="Email" required autofocus>
+                    <input id="email" type="email" class="form-control" name="email" value="{{$email}}" placeholder="Email" required autofocus>
 
                     <input id="password" type="password" class="form-control" name="password" placeholder="Mot de passe" required>
 
                     <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="Confirmer le mot de passe" required>
 
                     <div class="login-container">
-                        <button type="submit" class="auth-button">Reset Password</button>
+                        <button type="submit" class="auth-button">Reinitialiser</button>
                     </div>
 
                 </form>
@@ -102,11 +102,9 @@
             <div class="auth-right">
                 <h3>Informations complémentaires</h3>
                 <div class="spacer"></div>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel dicta obcaecati exercitationem ut atque inventore
-                    cum. Magni autem error ut!</p>
+                <p>Entrez l'adresse mail associée à votre compte ainsi que le nouveau mot de passe</p>
                 <div class="spacer"></div>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vel accusantium quasi necessitatibus rerum fugiat eos,
-                    a repudiandae tempore nisi ipsa delectus sunt natus!</p>
+                <p>Si vous rencontrez des difficultés, prière de nous contactez! Nous serons ravis de vous aider à récupérer votre compte</p>
             </div>
         </div>
     </div>

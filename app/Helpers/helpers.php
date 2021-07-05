@@ -1,5 +1,6 @@
 <?php
 
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Carbon;
 
 function getStockLevel($quantite)
@@ -12,6 +13,32 @@ function getStockLevel($quantite)
         $stockQ = '<span style="color: red">Epuisé</span>';
 
     return $stockQ;
+}
+
+function getLivraisonPrice(){
+    return number_format((int)setting('site.livraison_price'),2);
+}
+
+function getNumbers()
+{
+    $tax = setting('site.tax') / 100;
+    $discount = session()->get('coupon')['discount'] ?? 0;
+    $code = session()->get('coupon')['name'] ?? null;
+    $newSubtotal = ((float)str_replace(',','',Cart::subtotal()) - $discount);
+    if ($newSubtotal < 0) {
+        $newSubtotal = 0;
+    }
+    $newTax = $newSubtotal * $tax;
+    $newTotal = $newSubtotal * (1 + $tax) +getLivraisonPrice();
+
+    return collect([
+        'tax' => $tax,
+        'discount' => $discount,
+        'code' => $code,
+        'newSubtotal' => $newSubtotal,
+        'newTax' => $newTax,
+        'newTotal' => $newTotal,
+    ]);
 }
 
 function presentDate($date)
@@ -78,4 +105,10 @@ function getProductDelPrice($produit)
         else
             return null;
     }
+}
+
+function getCategories()
+{
+    $categories = \App\Models\Categorie::all();
+    return $categories;
 }
