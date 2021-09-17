@@ -13,7 +13,7 @@ use function React\Promise\all;
 
 class ShopController extends Controller
 {
-    public $pagination = 10;
+    public $pagination = 9;
     /**
      * Display a listing of the resource.
      *

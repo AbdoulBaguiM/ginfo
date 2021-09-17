@@ -26,17 +26,16 @@ class CheckoutController extends Controller
         if (Cart::content()->count() == 0)
             return redirect()->route('voir_produits')->withErrors('Ajoutez des produits à votre panier avant de commander');
 
-        $gateway = new \Braintree\Gateway([
+/*        $gateway = new \Braintree\Gateway([
             'environment' => config('services.braintree.environment'),
             'merchantId' => config('services.braintree.merchantId'),
             'publicKey' => config('services.braintree.publicKey'),
             'privateKey' => config('services.braintree.privateKey')
         ]);
 
-        $token = $gateway->ClientToken()->generate();
+        $token = $gateway->ClientToken()->generate();*/
 
         return view('checkout')->with([
-            'token' => $token,
             'discount' => getNumbers()->get('discount'),
             'newSubtotal' => getNumbers()->get('newSubtotal'),
             'newTax' => getNumbers()->get('newTax'),
